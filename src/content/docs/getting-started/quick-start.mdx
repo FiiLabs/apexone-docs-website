@@ -1,0 +1,91 @@
+---
+title: Quick Start
+description: Get from zero to a verified request through ApexOne in a few minutes — create a key, install prerequisites, configure your tool, and confirm it works.
+---
+
+import { Steps, LinkCard, CardGrid, Aside, Badge } from '@astrojs/starlight/components';
+
+Welcome to ApexOne — a unified, **verifiable** gateway for Claude Code and other AI development tools. This guide takes you from zero to a verified request in a few minutes.
+
+## Get started in minutes
+
+Subscribe to ApexOne for reliable, cost-effective access to Claude Code and leading models through a single API.
+
+<Steps>
+
+1. **Create an account**
+
+   Visit the [ApexOne Dashboard](https://apex1.us) and create your account. After signing up, choose a subscription plan or start with a trial to explore the platform.
+
+   Once activated, go to **Dashboard → API Keys** and generate your API key. You'll use this key to authenticate Claude Code, Cursor, and other supported clients.
+
+   <Aside type="tip">
+   	A single ApexOne key works across every supported client. Create separate keys per project to keep usage and costs cleanly attributed.
+   </Aside>
+
+2. **Install prerequisites**
+
+   Before configuring any tool, make sure your machine has **Node.js 22 or later** and **Git**.
+
+   <LinkCard
+   	title="Install Node.js & Git"
+   	description="Step-by-step setup for Windows, macOS, and Linux."
+   	href="/getting-started/install/"
+   />
+
+3. **Configure Claude Code**
+
+   Point Claude Code at ApexOne to start sending verifiable requests.
+
+   <LinkCard title="Claude Code setup" description="Configure Claude Code to use ApexOne." href="/integrations/claude-code/" />
+
+4. **Verify your setup**
+
+   Launch Claude Code:
+
+   ```sh
+   claude
+   ```
+
+   You should see the Claude Code prompt:
+
+   ```
+   ✻ Welcome to Claude Code
+
+   >
+   ```
+
+   Send a simple message:
+
+   ```
+   > hi
+   ```
+
+   If everything is configured correctly, Claude will respond:
+
+   ```
+   > hi
+
+   Hello! How can I help you today?
+   ```
+
+</Steps>
+
+<Aside type="note">
+	You can monitor all requests, token usage, costs, and cache statistics in real time from the
+	[ApexOne Dashboard](https://apex1.us) — including a verifiable inference receipt for every call.
+</Aside>
+
+## Additional resources
+
+<CardGrid>
+	<LinkCard title="Claude Code documentation" description="Official Claude Code docs." href="https://code.claude.com/docs/en/overview" target="_blank" />
+	<LinkCard title="ApexOne Dashboard" description="Keys, usage, costs, and inference receipts." href="https://apex1.us" target="_blank" />
+</CardGrid>
+
+## Need help?
+
+<Aside type="tip" title="Support">
+	Email **support@apex1.us** or open the [ApexOne Dashboard](https://apex1.us). See the [FAQ](/faq/)
+	for common errors and answers.
+</Aside>

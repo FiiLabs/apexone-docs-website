@@ -1,0 +1,57 @@
+---
+title: FAQ
+description: Common ApexOne errors (401, connection, model-not-found) and answers about data privacy, API keys, monitoring, failover, and enterprise access.
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+## Common errors
+
+### 401 Unauthorized
+
+- The API key is invalid, expired, or revoked.
+- The base URL is incorrect — it must be `https://apex1.us` (or `https://apex1.us/v1` for OpenAI-SDK-style clients).
+- The auth file (`auth.json` / `settings.json`) is malformed JSON.
+
+### Unable to connect
+
+- Confirm your network can reach `https://apex1.us`.
+- Check for corporate proxies or firewalls blocking outbound HTTPS.
+
+### Model not found
+
+- Verify the model name against the [Supported Models](/#supported-models) list on the Overview.
+- Confirm the model is included in your current plan.
+
+## Frequently asked questions
+
+### Is my data used for training?
+
+No. Customer prompts and responses are **never** used for model training.
+
+### Do I need separate keys for different tools?
+
+No. A single ApexOne API key works across Claude Code, OpenCode, Cursor, Cline, and direct API calls. You can create multiple keys in the Dashboard to separate usage by project.
+
+### How do I monitor usage and costs?
+
+The [ApexOne Dashboard](https://apex1.us) shows all requests, token usage, costs, and cache statistics in real time — with a verifiable inference receipt for every call.
+
+### What happens when an upstream provider goes down?
+
+ApexOne's automatic failover reroutes traffic in the background, so your application keeps receiving responses with no code changes. Every failover is recorded in your receipts.
+
+### How do I get enterprise access?
+
+Contact **support@apex1.us** for enterprise plans, custom SLAs, and volume pricing.
+
+## Support
+
+<Aside type="tip" title="Get in touch">
+	Email **support@apex1.us** or open the [ApexOne Dashboard](https://apex1.us).
+</Aside>
+
+<CardGrid>
+	<LinkCard title="Quick Start" description="From zero to a verified request." href="/getting-started/quick-start/" />
+	<LinkCard title="Overview" description="What ApexOne is and how verification works." href="/" />
+</CardGrid>

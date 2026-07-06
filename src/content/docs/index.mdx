@@ -1,40 +1,91 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
-hero:
-  tagline: Congrats on setting up a new Starlight project!
-  image:
-    file: ../../assets/houston.webp
-  actions:
-    - text: Example Guide
-      link: /guides/example/
-      icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
-      variant: minimal
+title: ApexOne
+description: The verifiable frontier-AI gateway — access the world's most advanced LLMs through one OpenAI-compatible API, and verify that every request was served by the exact model you paid for.
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid, LinkCard, Aside, Badge } from '@astrojs/starlight/components';
+
+**ApexOne is the verifiable frontier-AI gateway.** It gives developers, agents, and enterprises access to the world's most advanced large language models through a single, unified, **OpenAI-compatible API** — with one guarantee no other gateway makes: **you can verify that every request was served by the exact model you paid for.**
+
+Ordinary API aggregators ask you to trust them. ApexOne removes the need for trust — routing decisions, model identity, and billing are all independently verifiable.
+
+<Aside type="tip" title="The trust layer for AI">
+	Think of ApexOne as HTTPS for AI calls. The frontier model does the work; ApexOne proves *which* model did it — because using a model and trusting it shouldn't be two separate things.
+</Aside>
+
+<figure class="apex-figure">
+	<img
+		src="/architecture-overview-light.svg"
+		alt="A request flows from the user over TLS into an Intel TDX confidential VM, is verified by remote attestation, then securely routed to OpenAI, Anthropic, or Google models."
+		class="sl-light-only"
+	/>
+	<img src="/architecture-overview-dark.svg" alt="" aria-hidden="true" class="sl-dark-only" />
+	<figcaption>
+		Every request runs inside a hardware-isolated Trusted Execution Environment (Intel TDX) and is
+		verified by remote attestation before it is routed to an upstream model.
+	</figcaption>
+</figure>
+
+## What makes ApexOne different
+
+<CardGrid>
+	<Card title="Verifiable inference" icon="approve-check-circle">
+		The core problem with AI gateways today is **silent substitution** — providers can quietly
+		reroute your traffic to quantized, distilled, or downgraded models, and you have no way to know.
+		Requests run inside a hardware-isolated TEE and are checked by remote attestation, so every
+		response records the exact model, version, and provider that served it. No silent swaps, no
+		shadow quantization.
+	</Card>
+	<Card title="Verified billing, not discount pricing" icon="list-format">
+		ApexOne isn't the cheapest reseller — it's the only gateway where your bill **provably matches**
+		what was served. Pricing passes through to the upstream model that actually ran your request, and
+		every invoice line reconciles against an inference receipt. No blended rates, no hidden margins.
+	</Card>
+	<Card title="Industry-leading reliability" icon="code-branch">
+		**99.99% uptime**, with continuous monitoring of upstream availability. Automatic failover routes
+		around outages and degraded models before they reach your users — and every failover event is
+		recorded in your receipts.
+	</Card>
+	<Card title="Developer-first & enterprise-ready" icon="link-alt">
+		**Drop-in OpenAI compatibility**, zero vendor lock-in, and audit-ready logs by default. Switch
+		underlying models with a one-line config change. Your prompts and responses are **never** used
+		for model training.
+	</Card>
+</CardGrid>
+
+### Inside verifiable inference
+
+- **Model Identity Guarantee** — every response carries a verifiable record of which model, which version, and which provider actually served it.
+- **Inference Receipts** — each request produces an auditable receipt (model, route, latency, token counts) you can retain for compliance, debugging, and cost reconciliation.
+- **Transparent Routing** — when automatic failover reroutes a request, the reroute is visible and logged, never hidden. You always know what ran and why.
+
+## Supported capabilities
+
+- **Streaming** for real-time responses
+- **Tool & function calling** for agentic workflows
+- **Structured output** for reliable data parsing
+- **Vision & long-context** models
+- **High throughput**, built for global scale
+- **Verifiable routing & inference receipts** on every request
+
+## Supported models
+
+Integrate once through a single API. Today ApexOne serves the complete **Claude** family, with more providers coming online.
+
+<Card title="Claude" icon="approve-check-circle">
+	<p><Badge text="Available" variant="success" /> · Anthropic</p>
+
+	Anthropic's frontier Claude models, accessed through Claude Code or any Anthropic-compatible client — every request verifiable end to end.
+</Card>
+
+<Aside type="note" title="More models on the way">
+	Additional providers are rolling out. Check the [ApexOne Dashboard](https://apex1.us) for the live catalog.
+</Aside>
 
 ## Next steps
 
-<CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
-		sidebar on this page.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
+<CardGrid>
+	<LinkCard title="Quick Start" description="Get from zero to a verified request in a few minutes." href="/getting-started/quick-start/" />
+	<LinkCard title="Install Prerequisites" description="Set up Node.js 22+ and Git for your OS." href="/getting-started/install/" />
+	<LinkCard title="Set up Claude Code" description="Point Claude Code at ApexOne." href="/integrations/claude-code/" />
 </CardGrid>

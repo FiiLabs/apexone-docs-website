@@ -1,0 +1,172 @@
+---
+title: Claude Code
+description: Configure Claude Code to connect through ApexOne — install, set your API key and base URL, verify the connection, and troubleshoot.
+---
+
+import { Tabs, TabItem, Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Configure [Claude Code](https://code.claude.com/docs/en/overview) to connect through ApexOne.
+
+## Prerequisites
+
+Before installing Claude Code, make sure the following are installed:
+
+- **Node.js 22 or later**
+- **Git**
+
+<LinkCard
+	title="Install Prerequisites"
+	description="Set up Node.js and Git for your OS."
+	href="/getting-started/install/"
+/>
+
+## Install Claude Code
+
+Install Claude Code globally:
+
+```sh
+npm install -g @anthropic-ai/claude-code
+```
+
+Verify the installation:
+
+```sh
+claude --version
+```
+
+If a version number is displayed, Claude Code has been installed successfully.
+
+## Configure Claude Code
+
+Claude Code stores its configuration in the `.claude` directory inside your user home folder.
+
+### Configuration location
+
+<Tabs syncKey="os">
+	<TabItem label="Windows">
+
+	```
+	%USERPROFILE%\.claude
+	```
+
+	Create the directory if it does not already exist:
+
+	```
+	mkdir %USERPROFILE%\.claude
+	```
+
+	</TabItem>
+	<TabItem label="macOS">
+
+	```
+	~/.claude
+	```
+
+	Create the directory if it does not already exist:
+
+	```sh
+	mkdir -p ~/.claude
+	```
+
+	</TabItem>
+	<TabItem label="Linux">
+
+	```
+	~/.claude
+	```
+
+	Create the directory if it does not already exist:
+
+	```sh
+	mkdir -p ~/.claude
+	```
+
+	</TabItem>
+</Tabs>
+
+### Create `settings.json`
+
+Create or edit `~/.claude/settings.json`:
+
+```json title="~/.claude/settings.json"
+{
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY",
+    "ANTHROPIC_BASE_URL": "https://apex1.us",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+  }
+}
+```
+
+<Aside type="note">
+	Replace `YOUR_API_KEY` with your ApexOne API key from **Dashboard → API Keys**.
+</Aside>
+
+### Configuration reference
+
+| Variable                                    | Description                                          |
+| ------------------------------------------- | ---------------------------------------------------- |
+| `ANTHROPIC_AUTH_TOKEN`                      | Your ApexOne API key                                 |
+| `ANTHROPIC_BASE_URL`                        | The ApexOne API endpoint (`https://apex1.us`)        |
+| `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC`  | Disables optional network traffic for better privacy |
+
+## Verify your setup
+
+<Steps>
+
+1. Launch Claude Code from any project directory:
+
+   ```sh
+   claude
+   ```
+
+2. Open the status screen:
+
+   ```
+   /status
+   ```
+
+   Confirm that the ApexOne base URL (`https://apex1.us`) is shown as the configured API endpoint.
+
+3. Send a simple message:
+
+   ```
+   > hi
+   ```
+
+   A successful reply confirms your setup:
+
+   ```
+   Hello! How can I help you today?
+   ```
+
+</Steps>
+
+<Aside type="tip">
+	The `/status` output above is representative — exact fields vary by Claude Code version. You can
+	also confirm the call (and its inference receipt) in the [ApexOne Dashboard](https://apex1.us).
+</Aside>
+
+## Troubleshooting
+
+<Aside type="caution" title="Authentication failed">
+	Verify that your API key is valid, `ANTHROPIC_AUTH_TOKEN` is set correctly, and `ANTHROPIC_BASE_URL`
+	points to `https://apex1.us`.
+</Aside>
+
+<Aside type="caution" title="Unable to connect">
+	Confirm your network can reach `https://apex1.us`, and check for corporate proxies or firewalls
+	blocking outbound HTTPS.
+</Aside>
+
+## Update Claude Code
+
+```sh
+npm install -g @anthropic-ai/claude-code@latest
+```
+
+## Related
+
+<CardGrid>
+	<LinkCard title="FAQ" description="Common errors and answers." href="/faq/" />
+</CardGrid>

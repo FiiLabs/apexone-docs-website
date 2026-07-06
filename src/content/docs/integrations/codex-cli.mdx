@@ -1,0 +1,156 @@
+---
+title: Codex CLI
+description: Configure OpenAI Codex CLI to use ApexOne as its API provider — install, set auth.json and config.toml, verify, and troubleshoot.
+draft: true # Hidden for now — ApexOne currently serves only Claude models. Remove this line (and re-enable the sidebar entry in astro.config.mjs) when OpenAI / Responses support ships.
+---
+
+import { Tabs, TabItem, Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Configure [Codex CLI](https://developers.openai.com/codex/quickstart) to use ApexOne as its API provider.
+
+## Prerequisites
+
+Before installing Codex CLI, make sure the following is installed:
+
+- **Node.js 22 or later**
+
+<LinkCard
+	title="Install Prerequisites"
+	description="Set up Node.js for your OS."
+	href="/getting-started/install/"
+/>
+
+## Install Codex CLI
+
+Install Codex CLI globally:
+
+```sh
+npm install -g @openai/codex
+```
+
+Verify the installation:
+
+```sh
+codex --version
+```
+
+If a version number is displayed, Codex CLI has been installed successfully.
+
+## Configure Codex CLI
+
+Codex stores its configuration in the `.codex` directory inside your user home folder.
+
+### Configuration location
+
+<Tabs syncKey="os">
+	<TabItem label="Windows">
+
+	```
+	%USERPROFILE%\.codex
+	```
+
+	Create the directory if it does not already exist:
+
+	```
+	mkdir %USERPROFILE%\.codex
+	```
+
+	</TabItem>
+	<TabItem label="macOS">
+
+	```
+	~/.codex
+	```
+
+	Create the directory if it does not already exist:
+
+	```sh
+	mkdir -p ~/.codex
+	```
+
+	</TabItem>
+	<TabItem label="Linux">
+
+	```
+	~/.codex
+	```
+
+	Create the directory if it does not already exist:
+
+	```sh
+	mkdir -p ~/.codex
+	```
+
+	</TabItem>
+</Tabs>
+
+### Create `auth.json`
+
+```json title="~/.codex/auth.json"
+{
+  "OPENAI_API_KEY": "YOUR_API_KEY"
+}
+```
+
+<Aside type="caution" title="Keep the field name">
+	Do **not** rename the `OPENAI_API_KEY` field — it is the configuration key name Codex CLI expects.
+	Only replace `YOUR_API_KEY` with your ApexOne API key.
+</Aside>
+
+### Create `config.toml`
+
+```toml title="~/.codex/config.toml"
+model_provider = "OpenAI"
+model = "gpt-5.5"
+review_model = "gpt-5.5"
+model_reasoning_effort = "high"
+
+[model_providers.OpenAI]
+name = "OpenAI"
+base_url = "https://apex1.us"
+wire_api = "responses"
+requires_openai_auth = true
+```
+
+<Aside type="tip">
+	For additional options, see the official [Codex configuration reference](https://developers.openai.com/codex/config-basic).
+</Aside>
+
+## Verify your setup
+
+<Steps>
+
+1. From any project directory, start Codex CLI:
+
+   ```sh
+   codex
+   ```
+
+2. On first launch, Codex may ask whether it can work inside the current repository. Choose the option that matches your workflow.
+
+3. Send a prompt to test the connection. A successful response confirms your configuration is working.
+
+</Steps>
+
+## Troubleshooting
+
+<Aside type="caution" title="401 Unauthorized">
+	This is usually caused by an invalid API key, an incorrect `base_url`, or malformed `auth.json`.
+	Verify both files:
+
+	- `~/.codex/auth.json` contains a valid ApexOne key under `OPENAI_API_KEY`.
+	- `~/.codex/config.toml` sets `base_url = "https://apex1.us"`.
+</Aside>
+
+## Update Codex CLI
+
+```sh
+npm install -g @openai/codex@latest
+```
+
+## Related
+
+<CardGrid>
+	<LinkCard title="Claude Code" description="Configure Claude Code to use ApexOne." href="/integrations/claude-code/" />
+	<LinkCard title="FAQ" description="Common errors and answers." href="/faq/" />
+</CardGrid>
