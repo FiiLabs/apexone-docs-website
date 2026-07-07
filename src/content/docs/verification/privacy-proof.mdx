@@ -1,0 +1,182 @@
+---
+title: Privacy Proof
+description: Verify for yourself that ApexOne keeps your prompts encrypted end to end — inside a hardware-isolated Intel TDX secure VM, with no middle party (including us) able to read them.
+---
+
+import { Aside, Steps, Card, CardGrid, LinkButton, Badge } from '@astrojs/starlight/components';
+
+_Where your prompt goes, and who can see it._
+
+ApexOne lets you **verify instead of trust**: you can check for yourself that the text you send to the AI (your prompt) stays encrypted the whole way, and that no middle party — including us — can read it. This page explains, in plain language, what we prove, how we prove it, and how you can check it yourself in one click.
+
+<LinkButton href="https://apex1.us/proof" variant="primary" icon="right-arrow" iconPlacement="end">
+	Verify right now
+</LinkButton>
+
+<Aside type="tip">
+	Open [**apex1.us/proof**](https://apex1.us/proof) — the page runs the verification in your own browser automatically. A green check means it passed.
+</Aside>
+
+## In one line
+
+Your prompt stays **encrypted the whole way**, and only two places ever touch it:
+
+<CardGrid>
+	<Card title="Inside ApexOne's secure computer" icon="approve-check-circle">
+		A hardware-protected "vault computer" (Intel TDX) that **not even our own operators** can look into.
+	</Card>
+	<Card title="Anthropic, at the very end" icon="comment-alt">
+		Because it actually runs Claude, it sees the plaintext under its own privacy policy. We state this **honestly**, without hiding it.
+	</Card>
+</CardGrid>
+
+Beyond those, **ApexOne, the network, and every middle step cannot read or keep your content.**
+
+## Our promise (and the honest limits)
+
+<Aside type="tip" title="What we guarantee">
+	Between your device and Anthropic, **no middle step can read or store your prompt** — including us, the ApexOne operator.
+</Aside>
+
+<Aside type="caution" title="What we don't overstate">
+
+- **Anthropic sees your plaintext.** The Claude route connects to a Claude subscription, so the request must ultimately reach Anthropic in the clear, handled under Anthropic's own privacy policy. We never claim confidentiality _from_ Anthropic.
+- We **do not claim** "your model was not swapped" — judge by the actual replies you receive and by the verifiable evidence below.
+- Internally, the "gateway → Meridian" step crosses the network as plaintext (protected by the encrypted connection and an access token), but **both ends sit inside hardware-protected secure computers**.
+
+</Aside>
+
+We spell out the scope precisely so that the part we _can_ prove is genuinely trustworthy.
+
+## The journey your prompt takes
+
+<div class="proof-flow" role="img" aria-label="Your prompt travels encrypted from your device into ApexOne's hardware-isolated Intel TDX secure VM, where the gateway decrypts it and Meridian bridges to Claude; only the final hop to Anthropic is plaintext.">
+	<div class="proof-node">
+		<span class="proof-emoji">💻</span>
+		<strong>Your device</strong>
+		<small>you type a prompt</small>
+	</div>
+	<div class="proof-arrow proof-enc">
+		<span>🔒 encrypted</span>
+		<span class="proof-glyph">→</span>
+	</div>
+	<div class="proof-node proof-tee">
+		<strong>🔒 ApexOne · Intel TDX secure VM</strong>
+		<small>hardware-isolated · memory-encrypted</small>
+		<div class="proof-tee-inner">
+			<div class="proof-subnode">🌐 <strong>Gateway</strong><br />decrypts here</div>
+			<span class="proof-glyph">→</span>
+			<div class="proof-subnode">🌉 <strong>Meridian</strong><br />bridges Claude</div>
+		</div>
+	</div>
+	<div class="proof-arrow proof-plain">
+		<span>⚠ plaintext</span>
+		<span class="proof-glyph">→</span>
+	</div>
+	<div class="proof-node">
+		<span class="proof-emoji">🤖</span>
+		<strong>Anthropic</strong>
+		<small>sees plaintext · its own policy</small>
+	</div>
+</div>
+
+| Step | What happens | What we can prove |
+| --- | --- | --- |
+| **1. Your device → ApexOne gateway** | Your connection is encrypted; it is decrypted only inside a hardware-protected secure computer, and your plaintext never leaves it. | A **code fingerprint** confirms it runs exactly the public code; for an even stronger check, use the end-to-end encryption test below. |
+| **2. ApexOne gateway (secure computer)** | Runs exactly the public, auditable code; keeps no logs and retains nothing while handling your request, and issues a verifiable **signed receipt**. | Code fingerprint → public source version; signed receipt. |
+| **3. Gateway → Meridian (second secure computer)** | This internal step stays inside a second secure computer, which bridges to the Claude subscription. | An independent Intel hardware proof + code fingerprint. |
+| **4. Meridian → Anthropic** | Cannot be private: Anthropic decrypts and processes your plaintext under its own policy. | An **honest note** — not a confidentiality claim; we can only prove the request truly left from the authenticated secure computer. |
+
+## How to verify it yourself
+
+<p><Badge text="≈ 30 seconds" variant="success" size="medium" /></p>
+
+<Steps>
+
+1. Open [**apex1.us/proof**](https://apex1.us/proof).
+
+2. The page **automatically** starts verifying in your browser — you'll see several checks go from "Checking" to a green "Passed".
+
+3. All green means: **genuine hardware + running the public, untampered code + a proof generated right now** (not an old, replayed one).
+
+</Steps>
+
+The whole process runs **in your own browser, with no reliance on our servers** — it asks chip-maker **Intel's root of trust** to confirm "this is genuine hardware, running that public code." Click **Re-verify** anytime; the system uses a fresh one-time random number and checks again.
+
+### What each check proves
+
+| What you'll see | Plain meaning |
+| --- | --- |
+| Genuine Intel secure hardware | Not an ordinary server pretending — a real chip with hardware-level isolation. |
+| Code fingerprint matches | It runs exactly the code we publish, not a single byte changed. |
+| Bound to a one-time random number | This proof was generated **right now**, so nobody can fool you with an old report. |
+| Signed receipt | This request is signed by the authenticated secure computer and can be checked later. |
+
+## Advanced: the live end-to-end encryption test
+
+At the bottom of the `/proof` page there's an **optional** live test that lets you _see_ that the middle can't read your prompt. Click it, and your browser will:
+
+<Steps>
+
+1. Encrypt a prompt **locally** into ciphertext that only that secure computer can open.
+
+2. Send the ciphertext, then decrypt the encrypted reply the secure computer sends back.
+
+3. Show you exactly what each party saw:
+
+</Steps>
+
+<CardGrid>
+	<Card title="You, in your browser">
+		👁 **Plaintext** — your prompt and the decrypted reply.
+	</Card>
+	<Card title="The middle (ApexOne / the network)">
+		🚫 Only a blob of **ciphertext**, which cannot be recovered.
+	</Card>
+	<Card title="The secure computer">
+		🔓 Can decrypt — and **only** it can, which is why it replied correctly.
+	</Card>
+</CardGrid>
+
+The reply decrypting successfully **proves** that only the secure computer holding the hardware-protected private key can read what you sent. This conclusion **holds whether or not you trust the network encryption.**
+
+<Aside type="caution" title="Before you try it">
+	This demo prompt is decrypted inside the secure computer and then, by design, forwarded to Anthropic in the clear (step 4), and it uses a small amount of quota. **Don't paste anything sensitive.** Your API key stays only in your browser.
+</Aside>
+
+## Check it independently
+
+Don't want to just take our word for it? You don't have to. The [**apex1.us/proof**](https://apex1.us/proof) page publishes the exact reference values (the "fingerprints") for the current deployment and lets you — or any independent third party — compare them, line by line, against the hardware proof read live. **If the values match, the running code really is the public, untampered code we claim.**
+
+Everything you need is on the `/proof` page itself:
+
+- the **current reference values** for each secure computer (App IDs, deployment fingerprints, source version, container-image identities);
+- **direct links** to the public source code and to the signed container images;
+- a one-click **download of the proof report**, which you can re-check in an independent explorer such as [proof.t16z.com](https://proof.t16z.com/);
+- verification that runs against **Intel's own attestation data**, not ours.
+
+<Aside type="note">
+	We keep the exact fingerprint values on the `/proof` page rather than in this guide on purpose: the **verification method** described here never changes, but the specific fingerprints _do_ change every time we ship an update — and the page always shows the current ones. This guide stays valid; the page stays live.
+</Aside>
+
+## FAQ
+
+### Does the automatic verification use my data or API key?
+
+No. The verification that runs when the page opens is **read-only and free** — it sends none of your content and needs no API key. Your API key is used only when you **actively click** the end-to-end encryption test (and even then it stays only in your browser).
+
+### What if verification shows "incomplete" or "failed"?
+
+Click **Re-verify** and try again first — occasional network issues (e.g. the Intel verification-data service being temporarily unreachable) can cause "incomplete." If it keeps failing, **do not trust** that report and [contact us](mailto:support@apex1.us).
+
+### Does this guarantee Anthropic won't see my content?
+
+**No**, and we never claim it does. The Claude route must hand plaintext to Anthropic. What we guarantee is that every middle step between your device and Anthropic cannot read or keep your content.
+
+### Do I need to understand cryptography to verify?
+
+No. Just open `/proof` and look for the green checks. The terminology and reference values are there for advanced users who want to dig deeper.
+
+<Aside type="note">
+	This document describes the ApexOne production environment (`api.apex1.us`). Reference values are refreshed on version updates; live verification always reflects what the `/proof` page reads on the spot.
+</Aside>

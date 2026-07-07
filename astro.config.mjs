@@ -11,7 +11,6 @@ export default defineConfig({
 			description:
 				"The verifiable frontier-AI gateway — call the world's most advanced models and verify which one served every request.",
 			logo: { src: './src/assets/favicon.svg' },
-			favicon: './src/assets/favicon.svg',
 			customCss: ['./src/styles/custom.css'],
 			social: [{ icon: 'telegram', label: 'Telegram', href: 'https://t.me/apex1us' }],
 			sidebar: [
@@ -29,6 +28,10 @@ export default defineConfig({
 						{ label: 'Claude Code', slug: 'integrations/claude-code' },
 						// { label: 'Codex CLI', slug: 'integrations/codex-cli' },
 					],
+				},
+				{
+					label: 'Verification',
+					items: [{ label: 'Privacy Proof', slug: 'verification/privacy-proof' }],
 				},
 				{
 					label: 'Help',

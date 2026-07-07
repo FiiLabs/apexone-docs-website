@@ -92,7 +92,7 @@ Create or edit `~/.claude/settings.json`:
 {
   "env": {
     "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY",
-    "ANTHROPIC_BASE_URL": "https://apex1.us",
+    "ANTHROPIC_BASE_URL": "https://api.apex1.us",
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
   }
 }
@@ -107,7 +107,7 @@ Create or edit `~/.claude/settings.json`:
 | Variable                                    | Description                                          |
 | ------------------------------------------- | ---------------------------------------------------- |
 | `ANTHROPIC_AUTH_TOKEN`                      | Your ApexOne API key                                 |
-| `ANTHROPIC_BASE_URL`                        | The ApexOne API endpoint (`https://apex1.us`)        |
+| `ANTHROPIC_BASE_URL`                        | The ApexOne API endpoint (`https://api.apex1.us`)        |
 | `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC`  | Disables optional network traffic for better privacy |
 
 ## Verify your setup
@@ -126,7 +126,7 @@ Create or edit `~/.claude/settings.json`:
    /status
    ```
 
-   Confirm that the ApexOne base URL (`https://apex1.us`) is shown as the configured API endpoint.
+   Confirm that the ApexOne base URL (`https://api.apex1.us`) is shown as the configured API endpoint.
 
 3. Send a simple message:
 
@@ -151,11 +151,11 @@ Create or edit `~/.claude/settings.json`:
 
 <Aside type="caution" title="Authentication failed">
 	Verify that your API key is valid, `ANTHROPIC_AUTH_TOKEN` is set correctly, and `ANTHROPIC_BASE_URL`
-	points to `https://apex1.us`.
+	points to `https://api.apex1.us`.
 </Aside>
 
 <Aside type="caution" title="Unable to connect">
-	Confirm your network can reach `https://apex1.us`, and check for corporate proxies or firewalls
+	Confirm your network can reach `https://api.apex1.us`, and check for corporate proxies or firewalls
 	blocking outbound HTTPS.
 </Aside>
 
