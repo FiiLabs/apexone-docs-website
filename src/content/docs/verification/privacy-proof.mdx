@@ -161,9 +161,12 @@ Everything you need is on the `/proof` page itself:
 
 ## FAQ
 
-### Does the automatic verification use my data or API key?
+### Does verifying use my data, my API key, or my credits?
 
-No. The verification that runs when the page opens is **read-only and free** — it sends none of your content and needs no API key. Your API key is used only when you **actively click** the end-to-end encryption test (and even then it stays only in your browser).
+It depends which of the two things on the page you mean:
+
+- **The automatic verification** (runs by itself when the page opens) is **read-only and free.** It checks the hardware proof using only public data — it sends none of your content, uses no API key, and never touches your balance.
+- **The optional live encryption test** (only runs when you click **"Encrypt & round-trip"**) makes one real API call to prove the middle can't read your prompt. Like any real request, it uses your API key and a tiny amount of credits (a fraction of a cent) — so if your balance dropped by a cent or two right after verifying, **that was this test, not the automatic check.** Your API key stays in your browser and is sent only to authorize that one request; we never store it.
 
 ### What if verification shows "incomplete" or "failed"?
 
