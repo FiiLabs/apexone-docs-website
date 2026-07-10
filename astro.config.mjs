@@ -10,7 +10,10 @@ export default defineConfig({
 			title: 'ApexOne',
 			description:
 				"The verifiable frontier-AI gateway — call the world's most advanced models and verify which one served every request.",
-			logo: { src: './src/assets/favicon.svg' },
+			logo: { light: './src/assets/logo-light.svg', dark: './src/assets/logo-dark.svg', replacesTitle: true },
+			components: {
+				SiteTitle: './src/components/SiteTitle.astro',
+			},
 			customCss: ['./src/styles/custom.css'],
 			social: [{ icon: 'telegram', label: 'Telegram', href: 'https://t.me/apex1us' }],
 			sidebar: [
