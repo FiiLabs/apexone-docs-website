@@ -1,0 +1,184 @@
+---
+title: Share Your Subscription
+description: Put idle Claude subscription quota to work on ApexOne — how to connect an account, what the review period does, how the revenue share is calculated, and what providers can and cannot see.
+---
+
+import { Aside, Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
+
+You are probably paying a flat monthly fee for a Claude subscription and using a fraction of it.
+ApexOne lets you put the rest to work: connect your account, and when someone else's request is
+served by your idle quota, you take a share of what they paid.
+
+<Aside type="caution" title="What we commit to — and what we don't">
+	We commit to the **revenue share** (currently 80%) and to how you get paid. We do **not** commit to
+	how much you will earn: that depends on real demand on the platform, and the platform is early with
+	demand still building. Early earnings may be quite limited. Any figure you calculate from the
+	formula below is an estimate, not a promise.
+</Aside>
+
+## How it works
+
+<Steps>
+
+1. **Connect your subscription.** Authorize an account through OAuth, or supply a compatible API
+   endpoint. Either way you can take it offline or disconnect it at any time.
+
+2. **Your idle quota gets used.** The platform routes requests to your account, drawing only on
+   quota you have not used yourself.
+
+3. **You take a share of the revenue.** For every fee the platform charges the user, you keep 80%.
+
+</Steps>
+
+## Walkthrough: from zero to earning
+
+This is the whole flow, click by click. It takes a few minutes; the waiting afterwards takes longer
+than the doing.
+
+<Steps>
+
+1. **Sign in and open the sharing console.**
+
+   Go to the [ApexOne Dashboard](https://apex1.us) and sign in. In the left sidebar, find the
+   **Earn by Sharing** section and click **Share Subscription**.
+
+   If you don't see that section, sharing is not enabled on this site — nothing you can fix from
+   your side; contact the operator.
+
+2. **Read and accept the supplier agreement.**
+
+   This is a one-time gate: nothing can be connected before it's accepted. It's worth actually
+   reading the part about data handling — your obligations differ depending on which connection
+   method you pick in the next step.
+
+   Tick the box and click **Accept and continue**.
+
+3. **Connect your subscription.**
+
+   Pick one of the two methods (see [the comparison below](#two-ways-to-connect) — if you're not
+   sure, take OAuth):
+
+   **OAuth — recommended.** Click **Connect my subscription**. A new tab opens the vendor's
+   authorization page. Approve it, copy the code it hands you, paste it back into the form, and
+   click **Finish connecting**. The link is valid for about 15 minutes; if it expires, just start
+   over.
+
+   **API relay.** Fill in an Anthropic-compatible base URL (`https://…`, no path suffix — the
+   platform appends `/v1/messages` itself) and its API key. On submit the platform sends one
+   minimal real request to check the endpoint answers, so a wrong key fails immediately rather
+   than silently.
+
+4. **Wait out the review period.**
+
+   Your account now shows **In review**. The platform probes it periodically; once it has passed
+   consecutive probes and the minimum observation window has elapsed, it joins the pool and starts
+   taking traffic.
+
+   **You earn nothing during this period. That is expected, not a fault.**
+
+5. **Bind a payout address — you can do this while waiting.**
+
+   In the withdrawal section, paste your wallet address for the payout chain. Copy it from your
+   wallet; do not type it by hand.
+
+6. **Watch it work.**
+
+   Once the account is serving, **Total earned** starts moving and each request shows up in the
+   earnings ledger. Earnings sit in a hold window first, then become withdrawable.
+
+</Steps>
+
+<Aside type="tip" title="If nothing is happening after review passes">
+	An account that is in the pool but earning nothing simply has no traffic routed to it yet. That's
+	a demand-side reality — there is nothing to fix in your configuration. Check the account state
+	first: **In review** and **Serving** mean very different things.
+</Aside>
+
+## Two ways to connect
+
+<CardGrid>
+	<Card title="OAuth (recommended)" icon="approve-check-circle">
+		Authorize your Claude account and paste the code back. Requests reach the vendor **through our
+		TEE gateway** — they never touch any device of yours, so you never handle user data.
+	</Card>
+	<Card title="API relay" icon="setting">
+		Supply an Anthropic-compatible `/v1/messages` endpoint and its key. Requests are forwarded to
+		**your** server, which means user prompts pass through infrastructure you operate — see the
+		obligations below. Site operators can disable this route.
+	</Card>
+</CardGrid>
+
+<Aside type="note" title="If you connect a relay endpoint">
+	Relayed requests carry other people's prompt content to a server you control. You are responsible
+	for handling that data properly; the supplier agreement spells out the obligation. If you would
+	rather not take that on, use the OAuth route — it never routes user content through your machines.
+</Aside>
+
+## The review period
+
+A newly connected account does **not** start serving immediately. It enters a review period where
+the platform probes it periodically and records the result. The account only joins the pool once it
+has passed consecutive probes **and** the minimum observation window has elapsed.
+
+This exists to protect both sides: you don't want your first impression of the platform to be a
+stream of failures from a misconfigured endpoint, and consumers shouldn't be routed to an account
+that cannot serve them.
+
+<Aside type="tip" title="Watch the probe result, not the clock">
+	If probing fails, the dashboard shows why. The most common cause is an expired authorization —
+	reconnecting the account fixes it. A failed probe resets the consecutive-success counter, so a
+	flaky endpoint will sit in review indefinitely rather than joining the pool and failing users.
+</Aside>
+
+## How the revenue share is calculated
+
+```
+Your earnings = what the user paid for that usage × revenue share (80%)
+```
+
+The base is **what the platform charges the user**, not the vendor's official list price. This
+distinction matters, because ApexOne bills consumers at 22% of official list pricing:
+
+| | Per $1 of official list-price usage |
+| --- | --- |
+| The user is charged | $0.22 |
+| **You receive (80%)** | **$0.176** |
+| The platform keeps (20%) | $0.044 |
+
+<Aside type="note" title="Why the share is a percentage of the charge, not of list price">
+	Quoting "80% of list price" would be a much bigger number and a false one. Everything downstream —
+	your ledger, your withdrawals, our reconciliation — is denominated in what was actually collected,
+	so that is what the share applies to.
+</Aside>
+
+## What you can and cannot see
+
+You see: which of your accounts served how many requests, what each one earned, and every ledger
+entry behind those numbers.
+
+You do **not** see: who the consumer was, or what they asked. On the OAuth route the content never
+reaches you in the first place; in the ledger, consumer identity is stripped server-side before the
+data leaves the API.
+
+## Taking an account back
+
+Two different actions, and the difference matters:
+
+- **Take offline** — stops new requests and enters a drain window. Requests already streaming finish
+  normally, and you can cancel while the window is open. The credential stays with the platform.
+- **Disconnect** — stops new requests *and* permanently deletes the authorization credential we hold.
+  This cannot be undone, and reconnecting means going through the review period again.
+
+Earnings already accrued are unaffected by either action, and remain withdrawable.
+
+<Aside type="note" title="Disconnecting doesn't revoke the grant upstream">
+	Deleting our copy of the credential stops ApexOne from using the account. To revoke the
+	authorization on the vendor's side as well, remove it in your Claude account settings.
+</Aside>
+
+## Next steps
+
+<CardGrid>
+	<LinkCard title="Earnings & Withdrawals" description="How earnings clear, and how to get paid on-chain." href="/earn/earnings-and-withdrawals/" />
+	<LinkCard title="How your requests are served" description="The three supply routes and where prompts travel." href="/#how-your-requests-are-served" />
+</CardGrid>

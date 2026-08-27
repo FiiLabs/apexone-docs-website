@@ -16,13 +16,15 @@ Ordinary API aggregators ask you to trust them. ApexOne removes the need for tru
 <figure class="apex-figure">
 	<img
 		src="/architecture-overview-light.svg"
-		alt="A request flows from the user over TLS into an Intel TDX confidential VM, is verified by remote attestation, then securely routed to OpenAI, Anthropic, or Google models."
+		alt="A request flows from the user over TLS into an Intel TDX confidential VM and is verified by remote attestation. From there it takes one of three supply routes: platform-owned accounts and shared subscriptions stay sealed inside the TEE, while the provider API relay sits outside that seal. All three reach Claude at Anthropic, which is live today; OpenAI and Gemini are shown as coming soon."
 		class="sl-light-only"
 	/>
 	<img src="/architecture-overview-dark.svg" alt="" aria-hidden="true" class="sl-dark-only" />
 	<figcaption>
-		Every request runs inside a hardware-isolated Trusted Execution Environment (Intel TDX) and is
-		verified by remote attestation before it is routed to an upstream model.
+		On platform-owned and shared-subscription routes, requests run inside a hardware-isolated
+		Trusted Execution Environment (Intel TDX) and are verified by remote attestation before being
+		routed to an upstream model. The provider-supplied API relay route sits outside this seal —
+		see <a href="#how-your-requests-are-served">how your requests are served</a>.
 	</figcaption>
 </figure>
 
@@ -32,19 +34,20 @@ Ordinary API aggregators ask you to trust them. ApexOne removes the need for tru
 	<Card title="Verifiable inference" icon="approve-check-circle">
 		The core problem with AI gateways today is **silent substitution** — providers can quietly
 		reroute your traffic to quantized, distilled, or downgraded models, and you have no way to know.
-		Requests run inside a hardware-isolated TEE and are checked by remote attestation, so every
-		response records the exact model, version, and provider that served it. No silent swaps, no
-		shadow quantization.
+		Every response records the exact model, version, and provider that served it, and on
+		TEE-sealed routes that record is backed by remote attestation. No silent swaps, no shadow
+		quantization.
 	</Card>
-	<Card title="Verified billing, not discount pricing" icon="list-format">
-		ApexOne isn't the cheapest reseller — it's the only gateway where your bill **provably matches**
-		what was served. Pricing passes through to the upstream model that actually ran your request, and
-		every invoice line reconciles against an inference receipt. No blended rates, no hidden margins.
+	<Card title="22% of official pricing — and a bill you can check" icon="list-format">
+		Requests are billed at **22% of official API list pricing**, per token. No subscription, no
+		minimum, no blended rates. The discount is the headline, but the part that's hard to copy is
+		that every invoice line reconciles against an inference receipt — you can check *what ran*,
+		not just *what you were charged*.
 	</Card>
-	<Card title="Industry-leading reliability" icon="code-branch">
-		**99.99% uptime**, with continuous monitoring of upstream availability. Automatic failover routes
-		around outages and degraded models before they reach your users — and every failover event is
-		recorded in your receipts.
+	<Card title="Routing that survives an outage" icon="code-branch">
+		Continuous monitoring of upstream availability, with automatic failover around outages and
+		degraded models before they reach your users — and every failover event is recorded in your
+		receipts.
 	</Card>
 	<Card title="Developer-first & enterprise-ready" icon="link-alt">
 		**Drop-in OpenAI compatibility**, zero vendor lock-in, and audit-ready logs by default. Switch
@@ -60,6 +63,30 @@ Ordinary API aggregators ask you to trust them. ApexOne removes the need for tru
 - **Transparent Routing** — when automatic failover reroutes a request, the reroute is visible and logged, never hidden. You always know what ran and why.
 
 Don't take our word for it — see how to [**verify it yourself**](/verification/privacy-proof/): genuine hardware, untampered code, proven on the spot.
+
+## How your requests are served
+
+Capacity reaches ApexOne through three routes. They differ in **where your prompt travels**, so we
+spell each one out rather than making a single blanket claim.
+
+| Route | Where the prompt goes | Inside the TEE seal? |
+| --- | --- | --- |
+| **Platform-owned accounts** | Routed inside an Intel TDX confidential VM — neither operators nor logs can read plaintext | **Yes** |
+| **Shared subscriptions** | Providers contribute idle subscription quota only. Requests travel from the TEE straight to the upstream vendor and never touch any provider's device | **Yes** |
+| **Provider API relay** | Forwarded to an endpoint the provider supplied and operates | **No** |
+
+<Aside type="caution" title="What the relay route means for you">
+	On the relay route your request content reaches a server operated by a third-party provider rather
+	than the model vendor directly. This is a property of relayed capacity, not something a gateway can
+	engineer away — so we state it instead of averaging it into a single "we can't read your data"
+	claim. Site operators can disable the relay route entirely.
+</Aside>
+
+<Aside type="tip" title="Using someone else's subscription doesn't mean they can read your prompts">
+	The shared-subscription route is the one people misread most often. A provider contributes **quota**,
+	not a server: the request leaves our TEE and goes straight to the upstream vendor. The provider
+	never sees the content — they only see that their quota was consumed.
+</Aside>
 
 ## Supported capabilities
 
@@ -91,4 +118,5 @@ Integrate once through a single API. Today ApexOne serves the complete **Claude*
 	<LinkCard title="Install Prerequisites" description="Set up Node.js 22+ and Git for your OS." href="/getting-started/install/" />
 	<LinkCard title="Set up Claude Code" description="Point Claude Code at ApexOne." href="/integrations/claude-code/" />
 	<LinkCard title="Verify it yourself" description="Check ApexOne's TEE privacy proof, end to end." href="/verification/privacy-proof/" />
+	<LinkCard title="Share your subscription" description="Put idle Claude quota to work and take a share of the revenue." href="/earn/share-subscription/" />
 </CardGrid>

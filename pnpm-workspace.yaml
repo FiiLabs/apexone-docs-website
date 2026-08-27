@@ -1,3 +1,8 @@
 allowBuilds:
+  # 两者都是 Astro 构建链上的原生依赖，必须允许跑安装脚本：
+  # esbuild 要落地对应平台的二进制，sharp 是图片处理的原生模块
+  # （Starlight 生成 og 图与响应式图片时用它）。
+  # 留 "set this to true or false" 占位的话，pnpm install 会直接以
+  # ERR_PNPM_IGNORED_BUILDS 退出，build 也就跑不起来。
   esbuild: true
   sharp: true

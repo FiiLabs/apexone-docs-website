@@ -45,6 +45,37 @@ ApexOne's automatic failover reroutes traffic in the background, so your applica
 
 Contact **support@apex1.us** for enterprise plans, custom SLAs, and volume pricing.
 
+## Sharing your subscription
+
+### Can the person whose subscription served my request read my prompt?
+
+No — not on the shared-subscription route. Providers contribute **quota**, not servers: the request
+leaves our TEE and goes straight to the upstream vendor, so it never touches a provider's device.
+They only see that their quota was consumed.
+
+There is one route where prompts do reach third-party infrastructure — the provider-supplied API
+relay — and it is listed explicitly in [how your requests are served](/#how-your-requests-are-served).
+Site operators can disable that route entirely.
+
+### How much can I earn by sharing my subscription?
+
+We commit to the **revenue share** — 80% of what the platform charges the user — and to paying it
+out on-chain with no withdrawal fee. We don't commit to an amount: that depends on real demand, and
+the platform is early with demand still building. See
+[Share Your Subscription](/earn/share-subscription/) for the formula.
+
+### Why can't I withdraw my earnings yet?
+
+Earnings sit in a **72-hour hold** before they become withdrawable — it covers the window in which a
+consumer's card payment can still be disputed. See
+[Earnings & Withdrawals](/earn/earnings-and-withdrawals/).
+
+### My account is connected but isn't earning anything.
+
+Check its state first. An account in the **review period** is not serving traffic yet — it joins the
+pool only after passing consecutive probes and clearing the minimum observation window. An account
+that *is* serving but earning nothing simply has no demand routed to it.
+
 ## Support
 
 <Aside type="tip" title="Get in touch">

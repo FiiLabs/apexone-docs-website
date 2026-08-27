@@ -33,6 +33,13 @@ export default defineConfig({
 					],
 				},
 				{
+					label: 'Earn by Sharing',
+					items: [
+						{ label: 'Share Your Subscription', slug: 'earn/share-subscription' },
+						{ label: 'Earnings & Withdrawals', slug: 'earn/earnings-and-withdrawals' },
+					],
+				},
+				{
 					label: 'Verification',
 					items: [{ label: 'Privacy Proof', slug: 'verification/privacy-proof' }],
 				},

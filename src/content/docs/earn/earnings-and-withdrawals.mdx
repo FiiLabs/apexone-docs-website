@@ -1,0 +1,118 @@
+---
+title: Earnings & Withdrawals
+description: How ApexOne provider earnings accrue, why there is a 72-hour hold, and how to withdraw USDT on-chain with no withdrawal fee.
+---
+
+import { Aside, Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
+
+Provider earnings land in a wallet that is separate from your consumer balance. Money moves through
+three states, and it is worth knowing which is which before you go looking for a number that seems
+to be missing.
+
+## The three states money passes through
+
+| State | What it means | Can you withdraw it? |
+| --- | --- | --- |
+| **On hold** | Credited, still inside the 72-hour hold window | No |
+| **Ready to withdraw** | Hold has elapsed | Yes |
+| **Total earned** | Cumulative, never decreases | — (a running total, not a balance) |
+
+<Aside type="tip" title="Two balances, two sets of rules">
+	If you also *use* ApexOne you now have two pots of money, and they are deliberately named
+	differently. **Account balance** is what you topped up — it can only be spent. **Ready to
+	withdraw** is what you earned — it can be sent to your own wallet on-chain. They are never
+	interchangeable in the direction you might assume: topping up does not create earnings.
+</Aside>
+
+## Why there is a hold at all
+
+Consumers can pay by card, and a card payment can be charged back after the fact. If we paid out the
+moment a request was billed, a chargeback would leave the platform covering money already handed to a
+provider.
+
+The hold is **72 hours**. That is a deliberate trade-off rather than a maximum-safety choice:
+
+- Three days covers the kind of fraud that actually shows up fast — a stolen card is normally
+  noticed and disputed within days, and that is where most disputed volume sits.
+- A longer hold would cover the long tail too, but at the cost of making every provider wait weeks
+  for money they already earned. The right instrument for the tail is a partial reserve, not holding
+  everything.
+
+<Aside type="note" title="Where the number is set">
+	The hold is a site setting, so a given deployment can run a different value. What your account is
+	actually subject to is shown alongside your balance in the dashboard.
+</Aside>
+
+## Getting paid
+
+<Steps>
+
+1. **Bind a payout address.**
+
+   Open the sharing console and scroll to the withdrawal section. Copy the address out of your
+   wallet and paste it — do not type it by hand, and do not "correct" a character from memory.
+   Click **Bind**.
+
+   You only do this once. Rebinding later does not affect requests you already submitted: each
+   request records the address that was bound at the moment it was created.
+
+2. **Check the amount is actually withdrawable.**
+
+   The form shows what is available right now. Anything still inside the hold window is not
+   included — if the number looks lower than you expected, that is usually why, not an error.
+
+3. **Submit the request.**
+
+   Enter an amount (or use the "all available" shortcut) and submit. **The amount leaves your
+   withdrawable balance the moment you submit**, not when it is paid — the form says so, and it
+   catches people out otherwise. If the request is later rejected, or you cancel it yourself, the
+   full amount comes back.
+
+4. **Wait for it to land.**
+
+   The request moves through `pending` → `processing` → `paid`. Once paid, the record carries the
+   on-chain transaction hash — paste it into a block explorer if you want to see the transfer
+   yourself.
+
+   Withdrawals carry **no fee**: network gas is covered by the platform, so the amount you request
+   is the amount that arrives.
+
+</Steps>
+
+<Aside type="note" title="What the in-between states mean">
+	`processing` means a transfer is being broadcast — this is the one state where cancelling is not
+	offered, because a cancellation could race an in-flight transfer. `failed` does **not** mean the
+	money is gone: it means the automatic payout did not complete and a human is picking it up, with
+	the amount still attached to the request.
+</Aside>
+
+<Aside type="danger" title="On-chain transfers are irreversible">
+	If the bound address is wrong, the transfer still succeeds — to whoever owns that address. Nothing
+	downstream can recover it, and the platform cannot reverse it. Paste the address from your wallet,
+	and check it once more before binding.
+</Aside>
+
+## Things that surprise people
+
+**"My balance dropped the moment I hit submit."** That is by design, and it is stated on the form.
+Deducting at approval time instead would leave a window where you could submit several withdrawals
+against the same balance.
+
+**"Total earned and Ready to withdraw don't match."** The difference is whatever is still inside the
+hold window, plus anything already withdrawn. Total earned only ever goes up; it is a lifetime
+counter, not a balance.
+
+**"My account is connected but earning nothing."** Check its state first. An account in the review
+period is not serving traffic yet. An account that is serving but earning nothing means there is no
+demand routed to it — that is a platform-side reality, not a misconfiguration on your end.
+
+**"I used my own key and earned nothing."** Requests you make with your own API key that land on
+your own supplied account do not accrue a share. Paying yourself a percentage of your own payment
+would create money out of nothing, so that path is deliberately excluded.
+
+## Next steps
+
+<CardGrid>
+	<LinkCard title="Share Your Subscription" description="Connect an account and understand the review period." href="/earn/share-subscription/" />
+	<LinkCard title="FAQ" description="Errors, privacy, and account questions." href="/faq/" />
+</CardGrid>
