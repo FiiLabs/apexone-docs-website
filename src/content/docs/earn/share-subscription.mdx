@@ -1,13 +1,13 @@
 ---
 title: Share Your Subscription
-description: Put idle Claude subscription quota to work on ApexOne — how to connect an account, what the review period does, how the revenue share is calculated, and what providers can and cannot see.
+description: Put idle Claude or ChatGPT subscription quota to work on ApexOne — how to connect an account, what the review period does, how the revenue share is calculated, and what providers can and cannot see.
 ---
 
 import { Aside, Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
 
-You are probably paying a flat monthly fee for a Claude subscription and using a fraction of it.
-ApexOne lets you put the rest to work: connect your account, and when someone else's request is
-served by your idle quota, you take a share of what they paid.
+You are probably paying a flat monthly fee for a Claude or ChatGPT subscription and using a fraction
+of it. ApexOne lets you put the rest to work: connect your account, and when someone else's request
+is served by your idle quota, you take a share of what they paid.
 
 <Aside type="caution" title="What we commit to — and what we don't">
 	We commit to the **revenue share** (currently 50%) and to how you get paid. We do **not** commit to
@@ -53,20 +53,21 @@ than the doing.
 
    Tick the box and click **Accept and continue**.
 
-3. **Connect your subscription.**
+3. **Pick the platform, then connect your subscription.**
 
-   Pick one of the two methods (see [the comparison below](#two-ways-to-connect) — if you're not
-   sure, take OAuth):
+   Choose whether you're sharing a **Claude** or a **ChatGPT** subscription, then connect. Claude
+   offers two methods (see [the comparison below](#two-ways-to-connect) — if you're not sure, take
+   OAuth); ChatGPT connects via OAuth only.
 
-   **OAuth — recommended.** Click **Connect my subscription**. A new tab opens the vendor's
-   authorization page. Approve it, copy the code it hands you, paste it back into the form, and
-   click **Finish connecting**. The link is valid for about 15 minutes; if it expires, just start
-   over.
+   **OAuth — recommended (both Claude and ChatGPT).** Click **Connect my subscription**. A new tab
+   opens the vendor's authorization page. Approve it, copy the code it hands you, paste it back into
+   the form, and click **Finish connecting**. The link is valid for about 15 minutes; if it expires,
+   just start over.
 
-   **API relay.** Fill in an Anthropic-compatible base URL (`https://…`, no path suffix — the
-   platform appends `/v1/messages` itself) and its API key. On submit the platform sends one
-   minimal real request to check the endpoint answers, so a wrong key fails immediately rather
-   than silently.
+   **API relay (Claude only).** Fill in an Anthropic-compatible base URL (`https://…`, no path
+   suffix — the platform appends `/v1/messages` itself) and its API key. On submit the platform
+   sends one minimal real request to check the endpoint answers, so a wrong key fails immediately
+   rather than silently.
 
 4. **Wait out the review period.**
 
@@ -98,10 +99,11 @@ than the doing.
 
 <CardGrid>
 	<Card title="OAuth (recommended)" icon="approve-check-circle">
-		Authorize your Claude account and paste the code back. Requests reach the vendor **through our
-		TEE gateway** — they never touch any device of yours, so you never handle user data.
+		Authorize your Claude or ChatGPT account and paste the code back. Requests reach the vendor
+		**through our TEE gateway** — they never touch any device of yours, so you never handle user
+		data.
 	</Card>
-	<Card title="API relay" icon="setting">
+	<Card title="API relay (Claude only)" icon="setting">
 		Supply an Anthropic-compatible `/v1/messages` endpoint and its key. Requests are forwarded to
 		**your** server, which means user prompts pass through infrastructure you operate — see the
 		obligations below. Site operators can disable this route.
@@ -137,13 +139,17 @@ Your earnings = what the user paid for that usage × revenue share (50%)
 ```
 
 The base is **what the platform charges the user**, not the vendor's official list price. This
-distinction matters, because ApexOne bills consumers at 14% of official list pricing:
+distinction matters, because ApexOne bills consumers at a fraction of official list pricing, and
+that fraction depends on the platform — Claude usage is billed at 14% of list, ChatGPT usage at 20%:
 
-| | Per $1 of official list-price usage |
-| --- | --- |
-| The user is charged | $0.14 |
-| **You receive (50%)** | **$0.07** |
-| The platform keeps (50%) | $0.07 |
+| Per $1 of official list-price usage | Claude | ChatGPT |
+| --- | --- | --- |
+| The user is charged | $0.14 | $0.20 |
+| **You receive (50%)** | **$0.07** | **$0.10** |
+| The platform keeps (50%) | $0.07 | $0.10 |
+
+The revenue share is **50% on both platforms**; what differs is the consumer's billing rate, which
+sets the base your share applies to.
 
 <Aside type="note" title="Why the share is a percentage of the charge, not of list price">
 	Quoting "50% of list price" would be a much bigger number and a false one. Everything downstream —
@@ -173,7 +179,8 @@ Earnings already accrued are unaffected by either action, and remain withdrawabl
 
 <Aside type="note" title="Disconnecting doesn't revoke the grant upstream">
 	Deleting our copy of the credential stops ApexOne from using the account. To revoke the
-	authorization on the vendor's side as well, remove it in your Claude account settings.
+	authorization on the vendor's side as well, remove it in your Claude or ChatGPT (OpenAI) account
+	settings.
 </Aside>
 
 ## Next steps
