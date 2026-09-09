@@ -16,7 +16,7 @@ Ordinary API aggregators ask you to trust them. ApexOne removes the need for tru
 <figure class="apex-figure">
 	<img
 		src="/architecture-overview-light.svg"
-		alt="A request flows from the user over TLS into an Intel TDX confidential VM and is verified by remote attestation. From there it takes one of three supply routes: platform-owned accounts and shared subscriptions stay sealed inside the TEE, while the provider API relay sits outside that seal. All three reach Claude at Anthropic, which is live today; OpenAI and Gemini are shown as coming soon."
+		alt="A request flows from the user over TLS into an Intel TDX confidential VM and is verified by remote attestation. From there it takes one of three supply routes: platform-owned accounts and shared subscriptions stay sealed inside the TEE, while the provider API relay sits outside that seal. All three reach the upstream vendor: Claude at Anthropic and GPT at OpenAI are live today; Gemini is shown as coming soon."
 		class="sl-light-only"
 	/>
 	<img src="/architecture-overview-dark.svg" alt="" aria-hidden="true" class="sl-dark-only" />
@@ -99,13 +99,20 @@ spell each one out rather than making a single blanket claim.
 
 ## Supported models
 
-Integrate once through a single API. Today ApexOne serves the complete **Claude** family, with more providers coming online.
+Integrate once through a single API. Today ApexOne serves the complete **Claude** family and OpenAI's **GPT** models, with more providers coming online.
 
-<Card title="Claude" icon="approve-check-circle">
-	<p><Badge text="Available" variant="success" /> · Anthropic</p>
+<CardGrid>
+	<Card title="Claude" icon="approve-check-circle">
+		<p><Badge text="Available" variant="success" /> · Anthropic</p>
 
-	Anthropic's frontier Claude models, accessed through Claude Code or any Anthropic-compatible client — every request verifiable end to end.
-</Card>
+		Anthropic's frontier Claude models, accessed through Claude Code or any Anthropic-compatible client — every request verifiable end to end.
+	</Card>
+	<Card title="GPT" icon="approve-check-circle">
+		<p><Badge text="Available" variant="success" /> · OpenAI</p>
+
+		OpenAI's frontier GPT models, including GPT-6, accessed through Codex CLI or any OpenAI-compatible client — every request verifiable end to end.
+	</Card>
+</CardGrid>
 
 <Aside type="note" title="More models on the way">
 	Additional providers are rolling out. Check the [ApexOne Dashboard](https://apex1.us) for the live catalog.
@@ -117,6 +124,7 @@ Integrate once through a single API. Today ApexOne serves the complete **Claude*
 	<LinkCard title="Quick Start" description="Get from zero to a verified request in a few minutes." href="/getting-started/quick-start/" />
 	<LinkCard title="Install Prerequisites" description="Set up Node.js 22+ and Git for your OS." href="/getting-started/install/" />
 	<LinkCard title="Set up Claude Code" description="Point Claude Code at ApexOne." href="/integrations/claude-code/" />
+	<LinkCard title="Set up Codex CLI" description="Point Codex CLI at ApexOne for GPT." href="/integrations/codex-cli/" />
 	<LinkCard title="Verify it yourself" description="Check ApexOne's TEE privacy proof, end to end." href="/verification/privacy-proof/" />
-	<LinkCard title="Share your subscription" description="Put idle Claude quota to work and take a share of the revenue." href="/earn/share-subscription/" />
+	<LinkCard title="Share your subscription" description="Put idle Claude or ChatGPT quota to work and take a share of the revenue." href="/earn/share-subscription/" />
 </CardGrid>

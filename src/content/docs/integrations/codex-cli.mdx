@@ -1,7 +1,6 @@
 ---
 title: Codex CLI
 description: Configure OpenAI Codex CLI to use ApexOne as its API provider — install, set auth.json and config.toml, verify, and troubleshoot.
-draft: true # Hidden for now — ApexOne currently serves only Claude models. Remove this line (and re-enable the sidebar entry in astro.config.mjs) when OpenAI / Responses support ships.
 ---
 
 import { Tabs, TabItem, Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
@@ -101,8 +100,8 @@ Codex stores its configuration in the `.codex` directory inside your user home f
 
 ```toml title="~/.codex/config.toml"
 model_provider = "OpenAI"
-model = "gpt-5.5"
-review_model = "gpt-5.5"
+model = "gpt-6"
+review_model = "gpt-6"
 model_reasoning_effort = "high"
 
 [model_providers.OpenAI]

@@ -92,10 +92,10 @@
   <text x="672" y="169" text-anchor="middle" font-size="7.5" class="label2" font-family="system-ui">Anthropic &#183; live</text>
 
   <!-- OpenAI / Gemini：路线图 -->
-  <rect x="614" y="188" width="104" height="34" rx="10" class="soon-surf" stroke-width="1" stroke-dasharray="4,3" />
-  <circle cx="634" cy="205" r="7" fill="#10a37f" opacity="0.45" />
-  <text x="676" y="203" text-anchor="middle" font-size="8.5" class="soon-text" font-family="system-ui,sans-serif" font-weight="600">OpenAI</text>
-  <text x="676" y="213" text-anchor="middle" font-size="7" class="soon-text" font-family="system-ui">coming soon</text>
+  <rect x="614" y="188" width="104" height="34" rx="10" class="surf" stroke-width="1" />
+  <circle cx="634" cy="205" r="7" fill="#10a37f" />
+  <text x="676" y="203" text-anchor="middle" font-size="8.5" class="strong" font-family="system-ui,sans-serif" font-weight="600">GPT</text>
+  <text x="676" y="213" text-anchor="middle" font-size="7" class="label2" font-family="system-ui">OpenAI &#183; live</text>
 
   <rect x="614" y="228" width="104" height="34" rx="10" class="soon-surf" stroke-width="1" stroke-dasharray="4,3" />
   <circle cx="634" cy="245" r="7" fill="#4285F4" opacity="0.45" />

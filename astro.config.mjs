@@ -29,7 +29,7 @@ export default defineConfig({
 					label: 'Integrations',
 					items: [
 						{ label: 'Claude Code', slug: 'integrations/claude-code' },
-						// { label: 'Codex CLI', slug: 'integrations/codex-cli' },
+						{ label: 'Codex CLI', slug: 'integrations/codex-cli' },
 					],
 				},
 				{
