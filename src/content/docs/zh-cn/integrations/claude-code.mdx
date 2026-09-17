@@ -1,0 +1,171 @@
+---
+title: Claude Code
+description: 配置 Claude Code 走 ApexOne——安装、设置 API Key 与 base URL、验证连接与排障。
+---
+
+import { Tabs, TabItem, Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+把 [Claude Code](https://code.claude.com/docs/en/overview) 配置成通过 ApexOne 连接。
+
+## 前置条件
+
+安装 Claude Code 之前，先确认以下组件已就位：
+
+- **Node.js 22 或更高版本**
+- **Git**
+
+<LinkCard
+	title="安装前置"
+	description="为你的操作系统装好 Node.js 与 Git。"
+	href="/zh-cn/getting-started/install/"
+/>
+
+## 安装 Claude Code
+
+全局安装：
+
+```sh
+npm install -g @anthropic-ai/claude-code
+```
+
+验证安装：
+
+```sh
+claude --version
+```
+
+能打印出版本号，说明安装成功。
+
+## 配置 Claude Code
+
+Claude Code 的配置存放在用户主目录下的 `.claude` 目录里。
+
+### 配置文件位置
+
+<Tabs syncKey="os">
+	<TabItem label="Windows">
+
+	```
+	%USERPROFILE%\.claude
+	```
+
+	目录不存在就先创建：
+
+	```
+	mkdir %USERPROFILE%\.claude
+	```
+
+	</TabItem>
+	<TabItem label="macOS">
+
+	```
+	~/.claude
+	```
+
+	目录不存在就先创建：
+
+	```sh
+	mkdir -p ~/.claude
+	```
+
+	</TabItem>
+	<TabItem label="Linux">
+
+	```
+	~/.claude
+	```
+
+	目录不存在就先创建：
+
+	```sh
+	mkdir -p ~/.claude
+	```
+
+	</TabItem>
+</Tabs>
+
+### 创建 `settings.json`
+
+创建或编辑 `~/.claude/settings.json`：
+
+```json title="~/.claude/settings.json"
+{
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY",
+    "ANTHROPIC_BASE_URL": "https://api.apex1.us",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+  }
+}
+```
+
+<Aside type="note">
+	把 `YOUR_API_KEY` 换成你在 **控制台 → API Keys** 里生成的 ApexOne API Key。
+</Aside>
+
+### 配置项说明
+
+| 变量                                        | 说明                                     |
+| ------------------------------------------- | ---------------------------------------- |
+| `ANTHROPIC_AUTH_TOKEN`                      | 你的 ApexOne API Key                     |
+| `ANTHROPIC_BASE_URL`                        | ApexOne 的 API 端点（`https://api.apex1.us`） |
+| `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC`  | 关闭非必要的网络请求，隐私更好           |
+
+## 验证配置
+
+<Steps>
+
+1. 在任意项目目录下启动 Claude Code：
+
+   ```sh
+   claude
+   ```
+
+2. 打开状态页：
+
+   ```
+   /status
+   ```
+
+   确认显示的 API 端点是 ApexOne 的 base URL（`https://api.apex1.us`）。
+
+3. 发一条简单消息：
+
+   ```
+   > hi
+   ```
+
+   收到回复就说明配置成功：
+
+   ```
+   Hello! How can I help you today?
+   ```
+
+</Steps>
+
+<Aside type="tip">
+	上面 `/status` 的输出只是示意——具体字段随 Claude Code 版本而不同。你也可以在
+	[ApexOne 控制台](https://apex1.us)确认这次调用（以及它的推理回执）。
+</Aside>
+
+## 排障
+
+<Aside type="caution" title="鉴权失败">
+	确认 API Key 有效、`ANTHROPIC_AUTH_TOKEN` 填写正确，且 `ANTHROPIC_BASE_URL` 指向
+	`https://api.apex1.us`。
+</Aside>
+
+<Aside type="caution" title="连不上">
+	确认你的网络能访问 `https://api.apex1.us`，并检查公司代理或防火墙是否拦截了出站 HTTPS。
+</Aside>
+
+## 升级 Claude Code
+
+```sh
+npm install -g @anthropic-ai/claude-code@latest
+```
+
+## 相关
+
+<CardGrid>
+	<LinkCard title="常见问题" description="常见报错与解答。" href="/zh-cn/faq/" />
+</CardGrid>

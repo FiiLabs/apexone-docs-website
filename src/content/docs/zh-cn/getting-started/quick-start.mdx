@@ -1,0 +1,94 @@
+---
+title: 快速开始
+description: 几分钟内完成从零到一次可验证请求——创建 Key、安装前置、配置客户端、确认跑通。
+---
+
+import { Steps, LinkCard, CardGrid, Aside, Badge } from '@astrojs/starlight/components';
+
+欢迎使用 ApexOne——一个面向 Claude Code 及其他 AI 开发工具的统一、**可验证**网关。这份指南带你在几分钟内完成从零到一次可验证的请求。
+
+## 几分钟就能开始
+
+订阅 ApexOne，通过一个 API 稳定、低成本地调用 Claude Code 与各家前沿模型。
+
+<Steps>
+
+1. **创建账号**
+
+   打开 [ApexOne 控制台](https://apex1.us)注册。注册完成后，选择一个订阅方案，或者先用试用额度体验。
+
+   开通之后进入 **控制台 → API Keys** 生成你的 API Key。Claude Code、Cursor 以及其他受支持的客户端都用这个 Key 鉴权。
+
+   <Aside type="tip">
+   	一个 ApexOne Key 在所有受支持的客户端上通用。按项目分别建 Key，可以让用量与费用归属清晰。
+   </Aside>
+
+2. **安装前置依赖**
+
+   在配置任何工具之前，先确认本机装好了 **Node.js 22 或更高版本**与 **Git**。
+
+   <LinkCard
+   	title="安装 Node.js 与 Git"
+   	description="Windows、macOS、Linux 的分步安装说明。"
+   	href="/zh-cn/getting-started/install/"
+   />
+
+3. **配置你的客户端**
+
+   把工具指向 ApexOne，就可以开始发送可验证的请求了——Claude 模型用 Claude Code，OpenAI 的 GPT 用 Codex CLI。
+
+   <CardGrid>
+   	<LinkCard title="配置 Claude Code" description="让 Claude Code 走 ApexOne。" href="/zh-cn/integrations/claude-code/" />
+   	<LinkCard title="配置 Codex CLI" description="通过 ApexOne 调用 GPT。" href="/zh-cn/integrations/codex-cli/" />
+   </CardGrid>
+
+4. **验证配置**
+
+   启动 Claude Code：
+
+   ```sh
+   claude
+   ```
+
+   你应该看到 Claude Code 的提示符：
+
+   ```
+   ✻ Welcome to Claude Code
+
+   >
+   ```
+
+   发一条简单消息：
+
+   ```
+   > hi
+   ```
+
+   如果配置无误，Claude 会回复：
+
+   ```
+   > hi
+
+   Hello! How can I help you today?
+   ```
+
+</Steps>
+
+<Aside type="note">
+	所有请求、token 用量、费用与缓存统计都可以在 [ApexOne 控制台](https://apex1.us)实时查看——
+	每一次调用还附带一张可验证的推理回执。
+</Aside>
+
+## 延伸资料
+
+<CardGrid>
+	<LinkCard title="Claude Code 官方文档" description="Claude Code 的官方说明。" href="https://code.claude.com/docs/en/overview" target="_blank" />
+	<LinkCard title="ApexOne 控制台" description="Key、用量、费用与推理回执。" href="https://apex1.us" target="_blank" />
+</CardGrid>
+
+## 需要帮助？
+
+<Aside type="tip" title="技术支持">
+	发邮件到 **support@apex1.us**，或打开 [ApexOne 控制台](https://apex1.us)。常见报错与解答见
+	[常见问题](/zh-cn/faq/)。
+</Aside>
