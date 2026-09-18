@@ -1,0 +1,70 @@
+---
+/**
+ * 教程视频：从注册登录到共享订阅的完整流程（约 2.5 分钟）。
+ *
+ * # 为什么是 _h264 而不是原片
+ *
+ * 原片 `ApexOne_tutorial.mp4` 是 HEVC（H.265）。用真实 Chrome 验过：
+ * `canPlayType('video/mp4; codecs="hev1…"')` 返回空字符串，加载后 videoWidth/Height
+ * 都是 0——元数据能读到（时长正常），但解码器拿不到画面，用户看到的是一个黑框。
+ * Safari 能放，Chrome/Firefox 大概率不能，而那是大多数访客。
+ *
+ * 所以转成 H.264（转码后同样在 Chrome 里验过 1920×1080 真的解出来了），并带
+ * `+faststart`——moov 前置，能边下边播，不必等 10 MB 下完。
+ *
+ * # preload="none" 不能改成 metadata 或 auto
+ *
+ * 这个视频挂在文档首页上。preload 一旦不是 none，每个打开首页的人都会先拉一段
+ * 视频数据——对只想看一眼文档的人是纯粹的浪费，在慢网络上还会拖慢首屏。
+ * poster 是一张 90 KB 的静态图，足够让人知道这里有个视频。
+ */
+interface Props {
+	/** 标题，显示在播放器上方。 */
+	title: string;
+	/** 一句话说明这段视频讲什么。 */
+	description: string;
+}
+
+const { title, description } = Astro.props;
+
+const VIDEO_SRC = 'https://publicai.s3.ap-east-1.amazonaws.com/common/ApexOne_tutorial_h264.mp4';
+const POSTER_SRC = 'https://publicai.s3.ap-east-1.amazonaws.com/common/ApexOne_tutorial_poster.jpg';
+---
+
+<figure class="tutorial-video">
+	<video
+		controls
+		preload="none"
+		playsinline
+		poster={POSTER_SRC}
+		aria-label={title}
+	>
+		<source src={VIDEO_SRC} type="video/mp4" />
+		{/* 浏览器连 H.264 都放不了时至少给一条出路，而不是一个沉默的黑框。 */}
+		<a href={VIDEO_SRC}>{title}</a>
+	</video>
+	<figcaption>{description}</figcaption>
+</figure>
+
+<style>
+	.tutorial-video {
+		margin: 1.5rem 0;
+	}
+
+	.tutorial-video video {
+		width: 100%;
+		/* 固定宽高比：没有它，poster 加载前这块会是 0 高，页面在加载过程中跳一下。 */
+		aspect-ratio: 16 / 9;
+		display: block;
+		border-radius: 0.5rem;
+		border: 1px solid var(--sl-color-gray-5);
+		background: var(--sl-color-black);
+	}
+
+	.tutorial-video figcaption {
+		margin-top: 0.5rem;
+		font-size: var(--sl-text-sm);
+		color: var(--sl-color-gray-3);
+		text-align: center;
+	}
+</style>
