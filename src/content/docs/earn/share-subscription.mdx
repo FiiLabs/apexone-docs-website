@@ -17,6 +17,60 @@ is served by your idle quota, you take a share of what they paid.
 	formula below is an estimate, not a promise.
 </Aside>
 
+## We can't see your chats
+
+This is the first thing most people want to know, so here it is before anything else.
+
+What you hand over is a **key that does exactly one thing**: run other people's requests against
+your quota. Reading your chat history takes a different key, and we never asked for it.
+
+So this isn't us promising not to look — **we simply don't hold that key.** A promise asks you to
+trust us. "We never requested that permission" is something you can check for yourself, on the
+authorization screen, before you approve anything.
+
+<Aside type="tip" title="In one line">
+	✓ What it can do: run other people's requests on your quota<br />
+	✗ What it cannot do: read your chats, your profile, your files
+</Aside>
+
+### What connecting does mean
+
+Being clear about what can't happen also means being clear about what does:
+
+- **Your quota gets used.** That is the whole point — other people's requests draw on what you
+  didn't use, and you take a share. It shows up in your vendor account as usage.
+- **You can set a daily cap** on every account; it stops taking requests once the cap is reached and
+  resumes the next day, so your quota is never drained without a limit you chose.
+- **What does not happen** is anyone reading, exporting, or training on what **you** did in that
+  account.
+
+### Want to verify?
+
+Exactly one permission is requested when you authorize:
+
+| Permission requested | What it allows |
+| --- | --- |
+| `user:inference` | Send inference requests against your quota. Nothing else. |
+
+These are permissions that exist in Anthropic's OAuth and that we deliberately **do not** request:
+
+| Permission we do NOT request | What it would have allowed |
+| --- | --- |
+| `user:sessions:claude_code` | Reading your Claude Code sessions and history |
+| `user:profile` | Reading your account profile |
+| `user:file_upload` | Uploading files as you |
+| `user:mcp_servers` | Reaching your connected MCP servers |
+| `org:create_api_key` | Minting API keys on your organization |
+
+You can check both tables in two places: the authorization screen before you approve, and the
+[public source](https://github.com/FiiLabs/sub2api).
+
+<Aside type="note" title="ChatGPT accounts">
+	A ChatGPT connection requests identity information and a refresh token, which means we do see the
+	email address the account belongs to (it is shown on your own account list). Reading your chats is
+	not requested either.
+</Aside>
+
 ## How it works
 
 <Steps>
@@ -156,6 +210,29 @@ that fraction depends on the platform — Claude usage is billed at 14% of list,
 
 The revenue share is **50% on both platforms**; what differs is the consumer's billing rate, which
 sets the base your share applies to.
+
+### What that looks like on a real task
+
+The table above is per dollar of list price, which is hard to picture. Here is the same maths on
+three coding tasks of different sizes, priced with Claude Fable 5's published rates (input $10 /
+MTok, output $50 / MTok, cache reads $1 / MTok). Agentic coding is cache-heavy, so cache reads
+dominate the token count:
+
+| Task | Cache reads | Fresh input | Output | List price | User pays | **You receive** |
+| --- | --- | --- | --- | --- | --- | --- |
+| Fix a small bug | 60K | 2K | 3K | $0.23 | $0.032 | **$0.016** |
+| Build a feature | 250K | 6K | 15K | $1.06 | $0.148 | **$0.074** |
+| Refactor a module | 900K | 20K | 50K | $3.60 | $0.504 | **$0.252** |
+
+Twenty "build a feature" tasks in a day would put roughly **$1.48** in your wallet. Multiply or
+divide as your account's actual traffic dictates.
+
+<Aside type="caution" title="This is arithmetic, not a forecast">
+	Every number above follows from published list prices and the rates on this page — you can redo
+	the calculation yourself. What it does **not** tell you is how many tasks will be routed to your
+	account, and that is the whole variable. An account in the pool with no demand routed to it earns
+	nothing, however the table looks. We commit to the rates, not to a volume.
+</Aside>
 
 <Aside type="note" title="Why the share is a percentage of the charge, not of list price">
 	Quoting "50% of list price" would be a much bigger number and a false one. Everything downstream —
