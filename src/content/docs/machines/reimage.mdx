@@ -1,0 +1,19 @@
+---
+title: Reimage
+description: "Swap in a fresh system disk; your data stays."
+---
+import { Aside } from '@astrojs/starlight/components';
+
+If the system is broken or you want a clean slate, click **Reimage** on the machine page or run `hangar reimage` on the machine (you'll type the machine name to confirm).
+
+| Kept | Lost |
+|---|---|
+| `/home` (on the encrypted disk, including AI tool credentials) | Everything on the system disk: `apt` packages, `/etc` changes, `/opt`, `/usr/local` |
+| `/root`, `/tmp`, `/var/log` | Anything in memory (the machine restarts) |
+| SSH host keys (no "host key changed" warning) | |
+
+The pre-installed AI tools are reinstalled (about two minutes). To restore your environment automatically after a reimage, put the setup steps in `~/.hangar/setup.sh`.
+
+<Aside type="note">
+	Reimaging is free — that boot is marked as not billed. The data disk is never decrypted or read; only the system disk is replaced.
+</Aside>

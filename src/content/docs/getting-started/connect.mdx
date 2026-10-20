@@ -1,0 +1,41 @@
+---
+title: Connect over SSH
+description: "Open a port, set up ~/.ssh/config and develop remotely in VS Code."
+---
+import { Aside } from '@astrojs/starlight/components';
+
+Machines have no dedicated public IP; everything is reached through a `server-IP:external-port` mapping. SSH is no different — map port 22 first.
+
+## Open port 22
+
+Machine page → **External access** → port inside the machine `22`, protocol TCP → open. An external port between 20000 and 29999 is assigned.
+
+## Connect
+
+- **User**: every machine uses `dev`. Root login is disabled; use `sudo` (no password) when you need root.
+- **Authentication**: SSH keys only, no passwords. If your private key isn't in the default location, add `-i path/to/key`.
+
+```bash
+ssh -p 20001 dev@203.0.113.10
+```
+
+## Add it to ~/.ssh/config
+
+```text
+Host my-box
+    HostName 203.0.113.10
+    Port 20001
+    User dev
+    IdentityFile ~/.ssh/id_ed25519
+    ServerAliveInterval 30
+```
+
+Then just `ssh my-box`. With the **VS Code** Remote-SSH extension, pick `my-box` to develop on the cloud machine.
+
+<Aside type="note" title="Suspended machines">
+	If the machine is suspended, the first connection takes about 10 seconds while we wake it in the background. That's normal — don't hit Ctrl-C.
+</Aside>
+
+## Change your SSH key
+
+The machine page has **Change SSH public key**. If you've lost your private key and haven't replaced it yet, you can temporarily use the [web terminal](/machines/web-terminal/).

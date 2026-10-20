@@ -1,0 +1,33 @@
+---
+title: Auto-suspend
+description: "Idle machines suspend and cost only the base fee; a connection wakes them."
+---
+import { Aside } from '@astrojs/starlight/components';
+
+**Auto-suspend is off by default on new machines** (they stay up and cost at most the monthly cap). Turn it on at creation or later on the machine page.
+
+## When a machine suspends
+
+Once on, a machine suspends after 20 minutes (configurable) of **all three** at once:
+
+- no established connections (in or out — e.g. SSH sessions, Claude Code's connection to the model);
+- a nearly idle CPU;
+- almost no network traffic.
+
+If any one fails, it stays up; missing data counts as "in use".
+
+## What happens while suspended
+
+The machine's memory is written to the encrypted disk, the physical RAM goes back to the server and the encryption key leaves memory. **While suspended you pay only the base fee, no hourly fee.**
+
+## Waking it
+
+Just SSH in or hit a mapped port: when the connection arrives we start the machine in the background and forward it — about 10 extra seconds. Processes, open files and in-memory data are all still there.
+
+You can also suspend immediately from inside the machine: `hangar hibernate`.
+
+<Aside type="caution">
+	- **Cron and other scheduled jobs don't run** while suspended — leave auto-suspend off if you have them.
+	- Machines with a **UDP** port mapping never auto-suspend (UDP can't trigger a wake).
+	- Running out of balance suspends machines regardless of this setting; see [Pricing and billing](/billing/pricing/).
+</Aside>

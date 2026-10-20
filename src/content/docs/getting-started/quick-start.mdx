@@ -1,94 +1,50 @@
 ---
-title: Quick Start
-description: Get from zero to a verified request through ApexOne in a few minutes — create a key, install prerequisites, configure your tool, and confirm it works.
+title: Quick start
+description: "From sign-up to running Claude Code on a cloud machine."
 ---
-
-import { Steps, LinkCard, CardGrid, Aside, Badge } from '@astrojs/starlight/components';
-
-Welcome to ApexOne — a unified, **verifiable** gateway for Claude Code and other AI development tools. This guide takes you from zero to a verified request in a few minutes.
-
-## Get started in minutes
-
-Subscribe to ApexOne for reliable, cost-effective access to Claude Code and leading models through a single API.
+import { Steps, Aside } from '@astrojs/starlight/components';
 
 <Steps>
 
-1. **Create an account**
+1. **Sign up / sign in**
 
-   Visit the [ApexOne Dashboard](https://apex1.us) and create your account. After signing up, choose a subscription plan or start with a trial to explore the platform.
+   Go to [apex1.us/signin](https://apex1.us/signin) and enter your email to get a code — no password needed. Your account is created on first sign-in.
 
-   Once activated, go to **Dashboard → API Keys** and generate your API key. You'll use this key to authenticate Claude Code, Cursor, and other supported clients.
+2. **Top up**
 
-   <Aside type="tip">
-   	A single ApexOne key works across every supported client. Create separate keys per project to keep usage and costs cleanly attributed.
-   </Aside>
+   Top up under **Billing** in the console: $0.50 minimum, by card, Alipay or WeChat Pay. Your balance is charged by the minute; we never charge your card automatically.
 
-2. **Install prerequisites**
+3. **Create a machine**
 
-   Before configuring any tool, make sure your machine has **Node.js 22 or later** and **Git**.
+   Click **New machine** and choose:
 
-   <LinkCard
-   	title="Install Node.js & Git"
-   	description="Step-by-step setup for Windows, macOS, and Linux."
-   	href="/getting-started/install/"
-   />
+   - **Machine spec**: S (2 vCPU / 4 GB) or M (4 vCPU / 8 GB).
+   - **Pre-installed tools**: *AI coding tools* (Claude Code, Codex, Node, Docker and more) or *Bare system*.
+   - **Claude account**: *Use my own* at no charge, or **Claude Pro** (+$40 per 30 days) that we sign in for you.
 
-3. **Configure your client**
+   Paste your **SSH public key** (no key yet? run `ssh-keygen -t ed25519` locally and `cat ~/.ssh/id_ed25519.pub`). The machine is ready in about 15 seconds; the pre-installed tools take about two more minutes.
 
-   Point your tool at ApexOne to start sending verifiable requests — Claude Code for Claude models, or Codex CLI for OpenAI's GPT.
+4. **Open the SSH port and connect**
 
-   <CardGrid>
-   	<LinkCard title="Claude Code setup" description="Configure Claude Code to use ApexOne." href="/integrations/claude-code/" />
-   	<LinkCard title="Codex CLI setup" description="Configure Codex CLI for GPT via ApexOne." href="/integrations/codex-cli/" />
-   </CardGrid>
+   On the machine page, under **External access**, open port **22** inside the machine. You get an external port between 20000 and 29999. Then:
 
-4. **Verify your setup**
+   ```bash
+   ssh -p <external-port> dev@<server-ip>
+   ```
 
-   Launch Claude Code:
+   The machine page has the exact command ready to copy. See [Connect over SSH](/getting-started/connect/).
 
-   ```sh
+5. **Start Claude Code**
+
+   ```bash
+   cd ~/workspace
    claude
    ```
 
-   You should see the Claude Code prompt:
-
-   ```
-   ✻ Welcome to Claude Code
-
-   >
-   ```
-
-   Send a simple message:
-
-   ```
-   > hi
-   ```
-
-   If everything is configured correctly, Claude will respond:
-
-   ```
-   > hi
-
-   Hello! How can I help you today?
-   ```
+   On first run it asks you to sign in: with your own account follow [Sign in to Claude](/claude/sign-in/); if you bought Pro, just use it once we've signed it in.
 
 </Steps>
 
 <Aside type="note">
-	You can monitor all requests, token usage, costs, and cache statistics in real time from the
-	[ApexOne Dashboard](https://apex1.us) — including a verifiable inference receipt for every call.
-</Aside>
-
-## Additional resources
-
-<CardGrid>
-	<LinkCard title="Claude Code documentation" description="Official Claude Code docs." href="https://code.claude.com/docs/en/overview" target="_blank" />
-	<LinkCard title="ApexOne Dashboard" description="Keys, usage, costs, and inference receipts." href="https://apex1.us" target="_blank" />
-</CardGrid>
-
-## Need help?
-
-<Aside type="tip" title="Support">
-	Email **support@apex1.us** or open the [ApexOne Dashboard](https://apex1.us). See the [FAQ](/faq/)
-	for common errors and answers.
+	New machines **stay up by default**: billed by running time, never more than the monthly cap. To save while idle, turn on [auto-suspend](/machines/auto-standby/) at creation or on the machine page.
 </Aside>

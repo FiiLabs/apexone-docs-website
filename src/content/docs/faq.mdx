@@ -1,88 +1,34 @@
 ---
 title: FAQ
-description: Common ApexOne errors (401, connection, model-not-found) and answers about data privacy, API keys, monitoring, failover, and enterprise access.
 ---
+## How is this different from a regular VPS?
 
-import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+Claude Code comes installed and you can buy a Claude account with the machine; the disk is encrypted and unreadable even to us while suspended; and you can turn on auto-suspend so idle time costs only the base fee. Always on, it costs about the same as a comparable cloud server.
 
-## Common errors
+## Will suspending lose what I'm running?
 
-### 401 Unauthorized
+No. Suspending saves the whole memory to disk and loads it back exactly; processes and open files are all there. New machines don't auto-suspend by default, and when it's on an active machine isn't suspended. Note that cron and other scheduled jobs don't run while suspended.
 
-- The API key is invalid, expired, or revoked.
-- The base URL is incorrect — it must be `https://api.apex1.us` (or `https://api.apex1.us/v1` for OpenAI-SDK-style clients).
-- The auth file (`auth.json` / `settings.json`) is malformed JSON.
+## How do I connect to a suspended machine?
 
-### Unable to connect
+Just SSH in. When the connection arrives we start the machine and forward it — about 10 extra seconds.
 
-- Confirm your network can reach `https://api.apex1.us`.
-- Check for corporate proxies or firewalls blocking outbound HTTPS.
+## Can I run a public service?
 
-### Model not found
+Yes, but on `server-IP:port` rather than a dedicated IP — open a port on the machine page. Custom domains and automatic HTTPS aren't supported yet.
 
-- Verify the model name against the [Supported Models](/#supported-models) list on the Overview.
-- Confirm the model is included in your current plan.
+## Do the pre-installed AI tools come with an account?
 
-## Frequently asked questions
+Not by default — sign in yourself; we never touch your credentials. Or buy Claude Pro at creation (+$40 per 30 days) and we sign it in for you.
 
-### Is my data used for training?
+## Will you charge me automatically?
 
-No. Customer prompts and responses are **never** used for model training. Want to verify for yourself that no middle party — including us — can even read them? See [Privacy Proof](/verification/privacy-proof/).
+We never charge your payment method automatically. The only recurring deduction is a Claude account you bought: every 30 days from your balance.
 
-### Do I need separate keys for different tools?
+## What happens when my balance runs out?
 
-No. A single ApexOne API key works across Claude Code, Codex CLI, OpenCode, Cursor, Cline, and direct API calls. You can create multiple keys in the Dashboard to separate usage by project.
+Machines are suspended and data is kept — top up and carry on. After 7 days in debt machines can't be started; only after 30 days and repeated notices are they deleted.
 
-### How do I monitor usage and costs?
+## How do I reach you?
 
-The [ApexOne Dashboard](https://apex1.us) shows all requests, token usage, costs, and cache statistics in real time — with a verifiable inference receipt for every call.
-
-### What happens when an upstream provider goes down?
-
-ApexOne's automatic failover reroutes traffic in the background, so your application keeps receiving responses with no code changes. Every failover is recorded in your receipts.
-
-### How do I get enterprise access?
-
-Contact **support@apex1.us** for enterprise plans, custom SLAs, and volume pricing.
-
-## Sharing your subscription
-
-### Can the person whose subscription served my request read my prompt?
-
-No — not on the shared-subscription route. Providers contribute **quota**, not servers: the request
-leaves our TEE and goes straight to the upstream vendor, so it never touches a provider's device.
-They only see that their quota was consumed.
-
-There is one route where prompts do reach third-party infrastructure — the provider-supplied API
-relay — and it is listed explicitly in [how your requests are served](/#how-your-requests-are-served).
-Site operators can disable that route entirely.
-
-### How much can I earn by sharing my subscription?
-
-We commit to the **revenue share** — 50% of what the platform charges the user — and to paying it
-out on-chain with no withdrawal fee. We don't commit to an amount: that depends on real demand, and
-the platform is early with demand still building. See
-[Share Your Subscription](/earn/share-subscription/) for the formula.
-
-### Why can't I withdraw my earnings yet?
-
-Earnings sit in a **72-hour hold** before they become withdrawable — it covers the window in which a
-consumer's card payment can still be disputed. See
-[Earnings & Withdrawals](/earn/earnings-and-withdrawals/).
-
-### My account is connected but isn't earning anything.
-
-Check its state first. An account in the **review period** is not serving traffic yet — it joins the
-pool only after passing consecutive probes and clearing the minimum observation window. An account
-that *is* serving but earning nothing simply has no demand routed to it.
-
-## Support
-
-<Aside type="tip" title="Get in touch">
-	Email **support@apex1.us** or open the [ApexOne Dashboard](https://apex1.us).
-</Aside>
-
-<CardGrid>
-	<LinkCard title="Quick Start" description="From zero to a verified request." href="/getting-started/quick-start/" />
-	<LinkCard title="Overview" description="What ApexOne is and how verification works." href="/" />
-</CardGrid>
+Email [support@apex1.us](mailto:support@apex1.us) or [Telegram](https://t.me/apex1us).

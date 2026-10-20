@@ -1,0 +1,27 @@
+---
+title: Security and privacy
+description: "What we can see, and what we cannot."
+---
+import { Aside } from '@astrojs/starlight/components';
+
+## Encryption
+
+- Your data disk is encrypted. **Once a machine suspends, the key leaves memory — not even we can read it.**
+- Deleting a machine destroys the key; nobody can recover it afterwards. There's no trash bin.
+
+<Aside type="caution" title="While a machine is running">
+	The key must be in memory for the machine to run, so while it runs we are **technically able to read** its data disk. We don't hide that.
+</Aside>
+
+## What we can't see
+
+- AI tool credentials you sign in with yourself: sign-in happens on your machine, and we only receive status, type and expiry.
+- The content of TCP sessions through port mappings (we only forward bytes).
+
+## What you can check
+
+- Every action that changes a machine's state (create, start, suspend, reimage, delete, maintenance) goes into a tamper-evident activity log you can read, export and verify in the console.
+- The web terminal is off by default, and every toggle and session is logged.
+- Administrators see exactly the same fields you do.
+
+Full details at [apex1.us/privacy](https://apex1.us/privacy).

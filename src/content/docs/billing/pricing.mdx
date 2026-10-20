@@ -1,0 +1,39 @@
+---
+title: Pricing and billing
+description: "Base fee + hourly fee with a monthly cap; Claude accounts billed separately."
+---
+import { Aside } from '@astrojs/starlight/components';
+
+```text
+Monthly bill = monthly base fee + hourly rate × hours running, capped each month
+```
+
+| Spec | Base/mo | Running/hr | Monthly cap (always on) |
+|---|---|---|---|
+| S · 2 vCPU / 4 GB / 40 GB | $12 | $0.04 | $24 |
+| M · 4 vCPU / 8 GB / 80 GB | $24 | $0.07 | $47 |
+
+- **Always on**: never more than the cap per month — about the same as a comparable cloud server.
+- **With auto-suspend**: suspended time costs only the base fee; a machine idle all month costs just that.
+- 2 TB/month of transfer included; beyond that we throttle rather than bill extra.
+- Prices may change — the [pricing page](https://apex1.us/pricing) is authoritative, and its calculator works out your combination.
+
+## Claude accounts
+
+| Plan | Per 30 days |
+|---|---|
+| Claude Pro | $40 |
+| Claude Max 5x | $200 (coming soon) |
+| Claude Max 20x | $400 (coming soon) |
+
+The first period is deducted from your balance at creation, then every 30 days. It is outside the monthly cap, charged while suspended too, and not refunded for the period already paid if you destroy the machine.
+
+## Top-ups and balance
+
+- Prepaid balance, charged by the minute; $0.50 minimum top-up; card, Alipay or WeChat Pay.
+- **We never charge your card or payment account automatically.**
+- Every charge is itemised under **Billing** in the console.
+
+<Aside type="caution" title="When your balance runs out">
+	Once your balance goes negative your machines are suspended and you're notified; data is kept — top up and carry on. After 7 days in debt machines can't be started; only after 30 days and repeated notices are they deleted.
+</Aside>

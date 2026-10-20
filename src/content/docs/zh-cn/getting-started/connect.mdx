@@ -1,0 +1,41 @@
+---
+title: 用 SSH 连接
+description: "开放端口、配置 ~/.ssh/config、用 VS Code 远程开发。"
+---
+import { Aside } from '@astrojs/starlight/components';
+
+机器没有独立公网 IP，对外访问一律通过「服务器 IP : 外部端口」映射。SSH 也一样：先把机器里的 22 端口映射出去。
+
+## 开放 22 端口
+
+机器页 → **外部访问** → 机器里的端口填 `22`、协议 TCP → 开放端口。系统会在 20000–29999 里分配一个外部端口。
+
+## 连接
+
+- **用户名**：所有机器都是 `dev`。不能用 root 直接登录，需要 root 权限时用 `sudo`（不用输密码）。
+- **登录方式**：只认 SSH 密钥，没有密码。私钥不在默认位置时，加 `-i 私钥路径`。
+
+```bash
+ssh -p 20001 dev@203.0.113.10
+```
+
+## 写进 ~/.ssh/config
+
+```text
+Host my-box
+    HostName 203.0.113.10
+    Port 20001
+    User dev
+    IdentityFile ~/.ssh/id_ed25519
+    ServerAliveInterval 30
+```
+
+以后直接 `ssh my-box`。用 **VS Code** 的 Remote-SSH 扩展，选 `my-box` 就能在云端机器里开发。
+
+<Aside type="note" title="待机中的机器">
+	机器在待机时，第一次连接要等约 10 秒——那是我们在后台把它唤醒，正常现象，别急着按 Ctrl-C。
+</Aside>
+
+## 换 SSH 公钥
+
+机器页里有「换 SSH 公钥」。私钥丢了、公钥还没换好时，可以临时打开[网页终端](/zh-cn/machines/web-terminal/)进去处理。

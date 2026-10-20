@@ -1,0 +1,38 @@
+---
+title: 跑长任务
+description: "合上电脑让 Claude 继续干活：tmux、保持开机、定时任务。"
+---
+import { Aside } from '@astrojs/starlight/components';
+
+## 用 tmux，断开也不停
+
+```bash
+tmux new -s work      # 开一个会话
+claude                # 在里面跑 Claude Code
+# Ctrl-b 然后 d：离开会话，任务继续跑
+tmux attach -t work   # 下次连上来回到原处
+```
+
+SSH 断开、笔记本合上都不影响 tmux 里的进程。
+
+## 自动待机会不会打断它？
+
+新机器**默认不自动待机**，一直开着，所以长任务不会被打断。
+
+如果你打开了自动待机：只有连续 20 分钟（可改）**同时**满足「没有任何连接、CPU 基本空闲、几乎没有网络流量」才会待机。Claude Code 在调用模型时有连接和流量，不会被判成闲置。
+
+待机不会杀进程：内存整块存到加密盘上，下次连接时原样装回，进程接着跑。
+
+## 临时保持开机
+
+开着自动待机、又想让机器在一段时间内一定不睡：
+
+```bash
+hangar keep-awake 4h    # 最长 24 小时，到点自动恢复
+hangar keep-awake off   # 提前取消
+```
+
+<Aside type="caution" title="定时任务">
+	机器待机期间，cron、systemd timer 等定时任务**不会运行**，它们自己也不会把机器叫醒。
+	有定时任务的机器，请不要打开自动待机。
+</Aside>

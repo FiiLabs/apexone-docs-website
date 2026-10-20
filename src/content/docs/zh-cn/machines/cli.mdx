@@ -1,0 +1,17 @@
+---
+title: 机器里的命令
+description: "hangar 命令速查。"
+---
+在机器里运行 `hangar` 查看帮助。常用命令：
+
+| 命令 | 作用 |
+|---|---|
+| `hangar status` | 这台机器的状态：配置、自动待机、余额、磁盘 |
+| `hangar auth` | 登录 Claude / Codex 的向导 |
+| `hangar auth status` | 查看凭据状态 |
+| `hangar keep-awake 4h` | 临时禁止自动待机（`90m`、`off`；最长 24 小时） |
+| `hangar hibernate` | 立即待机 |
+| `hangar security` | 查看 Claude 的护栏状态；`sudo hangar security off/on` 开关 |
+| `hangar private` | `~/private` 是什么、挡得住什么 |
+| `hangar reimage` | 重装系统盘（保留数据） |
+| `hangar diag` | 生成诊断报告：先给你看，确认后才发给我们 |

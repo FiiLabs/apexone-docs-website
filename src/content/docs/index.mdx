@@ -1,138 +1,36 @@
 ---
 title: ApexOne
-description: The verifiable frontier-AI gateway — access the world's most advanced LLMs through one OpenAI-compatible API, and verify that every request was served by the exact model you paid for.
+description: "A cloud dev machine with Claude Code ready: start coding at boot, and it keeps working after you close your laptop."
 ---
+import { Card, CardGrid, LinkCard, Aside } from '@astrojs/starlight/components';
 
-import { Card, CardGrid, LinkCard, Aside, Badge } from '@astrojs/starlight/components';
-import TutorialVideo from '../../components/TutorialVideo.astro';
-
-**ApexOne is the verifiable frontier-AI gateway.** It gives developers, agents, and enterprises access to the world's most advanced large language models through a single, unified, **OpenAI-compatible API** — with one guarantee no other gateway makes: **you can verify that every request was served by the exact model you paid for.**
-
-Ordinary API aggregators ask you to trust them. ApexOne removes the need for trust — routing decisions, model identity, and billing are all independently verifiable.
-
-<Aside type="tip" title="The trust layer for AI">
-	Think of ApexOne as HTTPS for AI calls. The frontier model does the work; ApexOne proves *which* model did it — because using a model and trusting it shouldn't be two separate things.
-</Aside>
-
-<figure class="apex-figure">
-	<img
-		src="/architecture-overview-light.svg"
-		alt="A request flows from the user over TLS into an Intel TDX confidential VM and is verified by remote attestation. From there it takes one of three supply routes: platform-owned accounts and shared subscriptions stay sealed inside the TEE, while the provider API relay sits outside that seal. All three reach the upstream vendor: Claude at Anthropic and GPT at OpenAI are live today; Gemini is shown as coming soon."
-		class="sl-light-only"
-	/>
-	<img src="/architecture-overview-dark.svg" alt="" aria-hidden="true" class="sl-dark-only" />
-	<figcaption>
-		On platform-owned and shared-subscription routes, requests run inside a hardware-isolated
-		Trusted Execution Environment (Intel TDX) and are verified by remote attestation before being
-		routed to an upstream model. The provider-supplied API relay route sits outside this seal —
-		see <a href="#how-your-requests-are-served">how your requests are served</a>.
-	</figcaption>
-</figure>
-
-## Watch it end to end
-
-<TutorialVideo
-	title="ApexOne tutorial: from sign-up to sharing a subscription"
-	description="About 2.5 minutes, start to finish — creating an account, getting a key, and connecting a subscription to start earning."
-/>
-
-## What makes ApexOne different
+**ApexOne is a cloud dev machine with Claude Code installed.** Official Claude Code is there at boot, and you can add a Claude Pro account at creation that we sign in for you. It is a full virtual machine with root: Claude can install dependencies, run Docker and run your tests — close your laptop and it keeps working in the cloud.
 
 <CardGrid>
-	<Card title="Verifiable inference" icon="approve-check-circle">
-		The core problem with AI gateways today is **silent substitution** — providers can quietly
-		reroute your traffic to quantized, distilled, or downgraded models, and you have no way to know.
-		Every response records the exact model, version, and provider that served it, and on
-		TEE-sealed routes that record is backed by remote attestation. No silent swaps, no shadow
-		quantization.
+	<Card title="Claude Code, ready at boot" icon="laptop">
+		Official Claude Code (and Codex), Node, Docker, git and a build toolchain, installed about two minutes after boot.
 	</Card>
-	<Card title="14% of official pricing — and a bill you can check" icon="list-format">
-		Requests are billed at **14% of official API list pricing**, per token. No subscription, no
-		minimum, no blended rates. The discount is the headline, but the part that's hard to copy is
-		that every invoice line reconciles against an inference receipt — you can check *what ran*,
-		not just *what you were charged*.
+	<Card title="Get the account with it" icon="star">
+		Pick Claude Pro at creation and we sign the machine in with a platform account. Already have one? Choose <em>Use my own</em> at no extra charge.
 	</Card>
-	<Card title="Routing that survives an outage" icon="code-branch">
-		Continuous monitoring of upstream availability, with automatic failover around outages and
-		degraded models before they reach your users — and every failover event is recorded in your
-		receipts.
+	<Card title="Close your laptop, it keeps going" icon="rocket">
+		The machine lives in the cloud, so dropping SSH doesn't matter. Pair it with tmux for tasks that run for hours.
 	</Card>
-	<Card title="Developer-first & enterprise-ready" icon="link-alt">
-		**Drop-in OpenAI compatibility**, zero vendor lock-in, and audit-ready logs by default. Switch
-		underlying models with a one-line config change. Your prompts and responses are **never** used
-		for model training.
+	<Card title="Guardrails on by default" icon="approve-check">
+		Claude's permission rules live in system-level settings it cannot change, and <code>~/private</code> is completely invisible to Claude.
 	</Card>
 </CardGrid>
 
-### Inside verifiable inference
-
-- **Model Identity Guarantee** — every response carries a verifiable record of which model, which version, and which provider actually served it.
-- **Inference Receipts** — each request produces an auditable receipt (model, route, latency, token counts) you can retain for compliance, debugging, and cost reconciliation.
-- **Transparent Routing** — when automatic failover reroutes a request, the reroute is visible and logged, never hidden. You always know what ran and why.
-
-Don't take our word for it — see how to [**verify it yourself**](/verification/privacy-proof/): genuine hardware, untampered code, proven on the spot.
-
-## How your requests are served
-
-Capacity reaches ApexOne through three routes. They differ in **where your prompt travels**, so we
-spell each one out rather than making a single blanket claim.
-
-| Route | Where the prompt goes | Inside the TEE seal? |
-| --- | --- | --- |
-| **Platform-owned accounts** | Routed inside an Intel TDX confidential VM — neither operators nor logs can read plaintext | **Yes** |
-| **Shared subscriptions** | Providers contribute idle subscription quota only. Requests travel from the TEE straight to the upstream vendor and never touch any provider's device | **Yes** |
-| **Provider API relay** | Forwarded to an endpoint the provider supplied and operates | **No** |
-
-<Aside type="caution" title="What the relay route means for you">
-	On the relay route your request content reaches a server operated by a third-party provider rather
-	than the model vendor directly. This is a property of relayed capacity, not something a gateway can
-	engineer away — so we state it instead of averaging it into a single "we can't read your data"
-	claim. Site operators can disable the relay route entirely.
+<Aside type="tip" title="Pricing in one line">
+	Kept running, a machine never costs more per month than its cap — about the same as a comparable cloud server. Turn on auto-suspend and idle time costs only the base fee.
+	A Claude account is billed separately every 30 days. See the [pricing page](https://apex1.us/pricing) for current prices.
 </Aside>
 
-<Aside type="tip" title="Using someone else's subscription doesn't mean they can read your prompts">
-	The shared-subscription route is the one people misread most often. A provider contributes **quota**,
-	not a server: the request leaves our TEE and goes straight to the upstream vendor. The provider
-	never sees the content — they only see that their quota was consumed.
-</Aside>
-
-## Supported capabilities
-
-- **Streaming** for real-time responses
-- **Tool & function calling** for agentic workflows
-- **Structured output** for reliable data parsing
-- **Vision & long-context** models
-- **High throughput**, built for global scale
-- **Verifiable routing & inference receipts** on every request
-
-## Supported models
-
-Integrate once through a single API. Today ApexOne serves the complete **Claude** family and OpenAI's **GPT** models, with more providers coming online.
+## Start here
 
 <CardGrid>
-	<Card title="Claude" icon="approve-check-circle">
-		<p><Badge text="Available" variant="success" /> · Anthropic</p>
-
-		Anthropic's frontier Claude models, accessed through Claude Code or any Anthropic-compatible client — every request verifiable end to end.
-	</Card>
-	<Card title="GPT" icon="approve-check-circle">
-		<p><Badge text="Available" variant="success" /> · OpenAI</p>
-
-		OpenAI's frontier GPT models, including GPT-6, accessed through Codex CLI or any OpenAI-compatible client — every request verifiable end to end.
-	</Card>
-</CardGrid>
-
-<Aside type="note" title="More models on the way">
-	Additional providers are rolling out. Check the [ApexOne Dashboard](https://apex1.us) for the live catalog.
-</Aside>
-
-## Next steps
-
-<CardGrid>
-	<LinkCard title="Quick Start" description="Get from zero to a verified request in a few minutes." href="/getting-started/quick-start/" />
-	<LinkCard title="Install Prerequisites" description="Set up Node.js 22+ and Git for your OS." href="/getting-started/install/" />
-	<LinkCard title="Set up Claude Code" description="Point Claude Code at ApexOne." href="/integrations/claude-code/" />
-	<LinkCard title="Set up Codex CLI" description="Point Codex CLI at ApexOne for GPT." href="/integrations/codex-cli/" />
-	<LinkCard title="Verify it yourself" description="Check ApexOne's TEE privacy proof, end to end." href="/verification/privacy-proof/" />
-	<LinkCard title="Share your subscription" description="Put idle Claude or ChatGPT quota to work and take a share of the revenue." href="/earn/share-subscription/" />
+	<LinkCard title="Quick start" description="Sign up, top up and create your first machine — Claude Code running in five minutes." href="/getting-started/quick-start/" />
+	<LinkCard title="Connect over SSH" description="Open port 22, add it to ~/.ssh/config, develop remotely in VS Code." href="/getting-started/connect/" />
+	<LinkCard title="Sign in to Claude" description="Use your own account, or buy Pro at creation." href="/claude/sign-in/" />
+	<LinkCard title="Pricing and billing" description="Base fee, hourly fee, monthly cap and how Claude accounts are billed." href="/billing/pricing/" />
 </CardGrid>

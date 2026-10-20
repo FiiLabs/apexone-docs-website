@@ -1,130 +1,36 @@
 ---
 title: ApexOne
-description: 可验证的前沿 AI 网关——通过一个 OpenAI 兼容 API 调用全球最先进的大模型，并且能验证每一次请求确实由你付费的那个模型完成。
+description: "装好 Claude Code 的云端开发机：开机即用、合上电脑它接着干活。"
 ---
+import { Card, CardGrid, LinkCard, Aside } from '@astrojs/starlight/components';
 
-import { Card, CardGrid, LinkCard, Aside, Badge } from '@astrojs/starlight/components';
-import TutorialVideo from '../../../components/TutorialVideo.astro';
-
-**ApexOne 是可验证的前沿 AI 网关。** 它让开发者、Agent 与企业通过一个统一的、**OpenAI 兼容**的 API 调用全球最先进的大语言模型——并且提供了一条别的网关不会给你的保证：**你可以验证每一次请求确实由你付费的那个模型完成。**
-
-普通的 API 聚合平台要你信任它。ApexOne 把「信任」这一环去掉了——路由决策、模型身份与计费，全部可以独立验证。
-
-<Aside type="tip" title="AI 调用的信任层">
-	可以把 ApexOne 理解成 AI 调用的 HTTPS。干活的是前沿模型；ApexOne 证明的是**究竟哪个模型**干的——
-	因为「用一个模型」和「信任这个模型」本来就不该是两件事。
-</Aside>
-
-<figure class="apex-figure">
-	<img
-		src="/architecture-overview-light.svg"
-		alt="请求经 TLS 从用户进入 Intel TDX 机密虚拟机，并通过远程证明验证。之后走三条供给路由之一：平台自营账号与共享订阅都留在 TEE 封装内，而共享者自建的 API 中转在封装之外。三条路由最终都到达上游厂商：Anthropic 的 Claude 与 OpenAI 的 GPT 已上线，Gemini 即将支持。"
-		class="sl-light-only"
-	/>
-	<img src="/architecture-overview-dark.svg" alt="" aria-hidden="true" class="sl-dark-only" />
-	<figcaption>
-		在平台自营与共享订阅这两条路由上，请求运行在硬件隔离的可信执行环境（Intel TDX）内，
-		并在被路由到上游模型之前经过远程证明验证。共享者自建的 API 中转路由在这层封装之外——
-		见<a href="#how-your-requests-are-served">你的请求是怎么被服务的</a>。
-	</figcaption>
-</figure>
-
-## 完整流程视频
-
-<TutorialVideo
-	title="ApexOne 教程：从注册到共享订阅"
-	description="约 2.5 分钟走完全程——注册账号、拿到 Key、接入订阅开始赚钱。"
-/>
-
-## ApexOne 有什么不同
+**ApexOne 是一台装好 Claude Code 的云端开发机。** 开机就有官方 Claude Code，还能在开通时顺带买好 Claude Pro 账号、由我们替你登录。它是一台有 root 的完整虚拟机：Claude 能装依赖、跑 Docker、跑测试；你合上笔记本，它在云上继续干活。
 
 <CardGrid>
-	<Card title="可验证的推理" icon="approve-check-circle">
-		今天 AI 网关的核心问题是**静默替换**——服务方可以悄悄把你的流量改道到量化版、蒸馏版或降级的模型上，
-		而你无从得知。ApexOne 的每一次响应都记录了实际服务它的模型、版本与提供方；在 TEE 封装的路由上，
-		这条记录还有远程证明背书。没有暗中替换，没有影子量化。
+	<Card title="开机就能用 Claude Code" icon="laptop">
+		预装官方 Claude Code（还有 Codex）、Node、Docker、git 和编译工具链，开机约 2 分钟装好。
 	</Card>
-	<Card title="官方价的 14%——而且账单可核对" icon="list-format">
-		请求按**官方 API 牌价的 14%** 计费，按 token 计算。无需订阅、无最低消费、没有混合费率。
-		折扣是显眼的部分，但真正难以复制的是：每一条账单明细都能与一张推理回执对上——
-		你可以核对**到底跑了什么**，而不只是**被收了多少**。
+	<Card title="账号可以一起买好" icon="star">
+		开通时选 Claude Pro，我们用平台账号替你登录；已有账号的选「自己登录」，不加价。
 	</Card>
-	<Card title="扛得住故障的路由" icon="code-branch">
-		持续监控上游可用性，在故障与模型降级波及你的用户之前自动切换——
-		而每一次切换事件都记录在你的回执里。
+	<Card title="合上电脑它接着跑" icon="rocket">
+		机器在云上，SSH 断开也不影响；配合 tmux 跑几个小时的长任务。
 	</Card>
-	<Card title="开发者优先，企业可用" icon="link-alt">
-		**直接替换即可用的 OpenAI 兼容性**、零厂商锁定、默认可审计的日志。
-		换底层模型只需改一行配置。你的请求与响应**绝不**用于模型训练。
+	<Card title="护栏默认装好" icon="approve-check">
+		Claude 的权限规则写在系统级配置里，它自己改不掉；<code>~/private</code> 对 Claude 完全不可见。
 	</Card>
 </CardGrid>
 
-### 「可验证的推理」具体指什么
-
-- **模型身份保证**——每一次响应都带有可验证的记录：哪个模型、哪个版本、哪个提供方真正服务了它。
-- **推理回执**——每一次请求产生一张可审计的回执（模型、路由、时延、token 数），可留存用于合规、排障与对账。
-- **透明路由**——自动故障切换改道一次请求时，这次改道是可见且被记录的，绝不隐藏。你始终知道跑了什么、为什么。
-
-不必只听我们说——看看怎么[**自己验证**](/zh-cn/verification/privacy-proof/)：真实的硬件、未被篡改的代码，当场证明。
-
-## 你的请求是怎么被服务的
-
-供给通过三条路由到达 ApexOne。它们的区别在于**你的 prompt 走到了哪里**，所以我们把每一条分别讲清楚，而不是笼统地下一个结论。
-
-| 路由 | prompt 去了哪里 | 在 TEE 封装内吗 |
-| --- | --- | --- |
-| **平台自营账号** | 在 Intel TDX 机密虚拟机内路由——运营方与日志都读不到明文 | **是** |
-| **共享订阅** | 共享者只贡献闲置的订阅额度。请求从 TEE 直达上游厂商，不经过共享者的任何设备 | **是** |
-| **共享者 API 中转** | 转发到共享者自己提供并运维的端点 | **否** |
-
-<Aside type="caution" title="中转路由对你意味着什么">
-	在中转路由上，你的请求内容到达的是第三方共享者运维的服务器，而不是直达模型厂商。
-	这是「中转型供给」这件事本身的属性，不是网关能在工程上抹掉的——所以我们把它讲出来，
-	而不是把它平均进一句「我们读不到你的数据」。站点运营方可以把中转路由整个关掉。
+<Aside type="tip" title="价格一句话">
+	一直开着，每月最多收「上限价」，和同配置云主机同价；开启自动待机后，闲着只收基础费。
+	Claude 账号另按 30 天一期收。当前价格以 [价格页](https://apex1.us/pricing) 为准。
 </Aside>
 
-<Aside type="tip" title="用了别人的订阅，不等于对方能读到你的 prompt">
-	共享订阅这条路由是最常被误读的。共享者贡献的是**额度**，不是服务器：请求离开我们的 TEE 后直达上游厂商。
-	共享者看不到任何内容——他们只能看到自己的额度被消耗了。
-</Aside>
-
-## 支持的能力
-
-- **流式输出**，实时响应
-- **工具与函数调用**，支撑 Agent 工作流
-- **结构化输出**，可靠地解析数据
-- **视觉与长上下文**模型
-- **高吞吐**，面向全球规模构建
-- 每一次请求都带**可验证的路由与推理回执**
-
-## 支持的模型
-
-一次接入，一个 API。ApexOne 目前提供完整的 **Claude** 系列与 OpenAI 的 **GPT** 模型，更多厂商正在接入。
+## 从这里开始
 
 <CardGrid>
-	<Card title="Claude" icon="approve-check-circle">
-		<p><Badge text="已上线" variant="success" /> · Anthropic</p>
-
-		Anthropic 的前沿 Claude 模型，通过 Claude Code 或任何 Anthropic 兼容客户端调用——每一次请求端到端可验证。
-	</Card>
-	<Card title="GPT" icon="approve-check-circle">
-		<p><Badge text="已上线" variant="success" /> · OpenAI</p>
-
-		OpenAI 的前沿 GPT 模型（含 GPT-6），通过 Codex CLI 或任何 OpenAI 兼容客户端调用——每一次请求端到端可验证。
-	</Card>
-</CardGrid>
-
-<Aside type="note" title="更多模型在路上">
-	更多厂商正在陆续接入。实时目录见 [ApexOne 控制台](https://apex1.us)。
-</Aside>
-
-## 下一步
-
-<CardGrid>
-	<LinkCard title="快速开始" description="几分钟内完成从零到一次可验证的请求。" href="/zh-cn/getting-started/quick-start/" />
-	<LinkCard title="安装前置" description="为你的操作系统装好 Node.js 22+ 与 Git。" href="/zh-cn/getting-started/install/" />
-	<LinkCard title="配置 Claude Code" description="把 Claude Code 指向 ApexOne。" href="/zh-cn/integrations/claude-code/" />
-	<LinkCard title="配置 Codex CLI" description="把 Codex CLI 指向 ApexOne 调用 GPT。" href="/zh-cn/integrations/codex-cli/" />
-	<LinkCard title="自己验证一遍" description="端到端核对 ApexOne 的 TEE 隐私证明。" href="/zh-cn/verification/privacy-proof/" />
-	<LinkCard title="共享你的订阅" description="把闲置的 Claude 或 ChatGPT 额度变成收入，按比例分成。" href="/zh-cn/earn/share-subscription/" />
+	<LinkCard title="快速开始" description="注册、充值、开第一台机器，5 分钟内用上 Claude Code。" href="/zh-cn/getting-started/quick-start/" />
+	<LinkCard title="用 SSH 连接" description="开放 22 端口、写进 ~/.ssh/config、用 VS Code 远程开发。" href="/zh-cn/getting-started/connect/" />
+	<LinkCard title="登录 Claude" description="用你自己的账号，或在开通时买一个 Pro。" href="/zh-cn/claude/sign-in/" />
+	<LinkCard title="价格与计费" description="基础费、开机小时费、月度上限、Claude 账号怎么收。" href="/zh-cn/billing/pricing/" />
 </CardGrid>

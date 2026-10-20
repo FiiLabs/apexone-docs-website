@@ -1,0 +1,43 @@
+---
+title: Sign in to Claude
+description: "Use your own Claude account, or buy a Pro account at creation."
+---
+import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
+<Tabs>
+<TabItem label="Use my own (no charge)">
+
+Run the setup wizard on the machine. It walks you through the credential type you have (a Claude subscription — Pro / Max / Team / Enterprise — or an Anthropic API key):
+
+```bash
+hangar auth
+```
+
+You can also just run `claude` and follow the official sign-in flow: open the link, authorize, and paste the code the page gives you back into the terminal.
+
+Sign-in happens on your machine and the official program writes the token there (in your encrypted home directory). **We never receive or store it.** The console's *Credentials* page only shows status, type and expiry.
+
+</TabItem>
+<TabItem label="Buy Claude Pro">
+
+When creating a machine, pick **Claude Pro** (+$40 per 30 days) under *Claude account*:
+
+- The first 30 days are deducted from your balance once the machine is created, then every 30 days; this is outside the monthly cap and charged while suspended too.
+- After creation our staff sign the machine in with a platform account (usually within business hours); the official program writes the token directly on your machine.
+- Destroying the machine does not refund the period already paid.
+- Max 5x / Max 20x are shown on the pricing page only and can't be selected at creation yet.
+
+</TabItem>
+</Tabs>
+
+## Check status
+
+```bash
+hangar auth status     # credential status
+hangar auth verify     # verify once now
+hangar auth report     # report to the console right away
+```
+
+<Aside type="caution">
+	`hangar auth forget claude` deletes the credential file on the machine. On a machine with a purchased Pro account, contact us to sign it in again afterwards.
+</Aside>

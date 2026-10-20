@@ -1,0 +1,43 @@
+---
+title: 登录 Claude
+description: "用你自己的 Claude 账号，或在开通时买一个 Pro 账号。"
+---
+import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
+<Tabs>
+<TabItem label="自己登录（不加价）">
+
+在机器里运行配置向导，它会按你选的凭据类型往下引导（Claude 订阅 Pro / Max / Team / Enterprise，或 Anthropic API key）：
+
+```bash
+hangar auth
+```
+
+也可以直接运行 `claude`，按官方的登录流程走：打开链接、授权、把页面给出的 code 贴回终端。
+
+登录在你的机器里完成，token 由官方程序写在你的机器上（在加密的家目录里），**我们不接收、不保存**。控制台「凭据」页只显示状态、类型、过期时间这几个字段。
+
+</TabItem>
+<TabItem label="购买 Claude Pro">
+
+开通机器时，在「Claude 账号」里选 **Claude Pro**（+$40 / 30 天）：
+
+- 开通成功后从余额扣第一期，之后每 30 天续扣一期；不进月度上限，机器待机也照收。
+- 开通后由我们的运营用平台账号替你在机器里登录（通常在工作时间内完成），token 由官方程序直接写在你的机器上。
+- 销毁机器不退已扣的那一期。
+- Max 5x / Max 20x 暂时只在价格页展示，开通页还不能选。
+
+</TabItem>
+</Tabs>
+
+## 查看状态
+
+```bash
+hangar auth status     # 看凭据状态
+hangar auth verify     # 主动验证一次
+hangar auth report     # 立刻向控制台上报一次
+```
+
+<Aside type="caution">
+	`hangar auth forget claude` 会删掉本机的凭据文件。买了 Pro 的机器删掉之后，需要联系我们重新登录。
+</Aside>

@@ -1,0 +1,16 @@
+---
+title: Open ports
+description: "No dedicated public IP — serve on server-IP:port."
+---
+import { Aside } from '@astrojs/starlight/components';
+
+Machine page → **External access**: enter the port inside the machine and the protocol (TCP / UDP); an external port between **20000 and 29999** is assigned. Traffic to `server-IP:external-port` reaches that port on your machine.
+
+- We only forward bytes; we can't see the content of TCP sessions.
+- Custom domains and automatic HTTPS aren't supported yet.
+- Your machines cannot reach each other (on purpose: one compromised machine can't reach the next).
+- Outbound port 25 is blocked, so you can't send mail directly; 465 / 587 work.
+
+<Aside type="caution" title="UDP">
+	UDP can't trigger a wake. Machines with a UDP mapping never auto-suspend — otherwise your UDP service would silently go dark once the machine slept.
+</Aside>

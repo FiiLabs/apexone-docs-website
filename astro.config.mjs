@@ -3,8 +3,26 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
+// 2026-10-20 文档换成云开发机。旧页面（API 网关时代）都删了，但链接不能 404 ——
+// 挂号奖励那封邮件（2026-09-16 发出 29,112 封）指向 /earn/share-subscription/ 等。
+const legacy = {
+	'getting-started/install': 'getting-started/quick-start/',
+	'integrations/claude-code': 'claude/sign-in/',
+	'integrations/codex-cli': 'claude/sign-in/',
+	'earn/share-subscription': '',
+	'earn/idle-quota-rewards': '',
+	'earn/earnings-and-withdrawals': '',
+	'verification/privacy-proof': 'security/privacy/',
+};
+const redirects = {};
+for (const [from, to] of Object.entries(legacy)) {
+	redirects[`/${from}`] = `/${to}`;
+	redirects[`/zh-cn/${from}`] = `/zh-cn/${to}`;
+}
+
 export default defineConfig({
 	site: 'https://docs.apex1.us',
+	redirects,
 	integrations: [
 		starlight({
 			title: 'ApexOne',
@@ -17,13 +35,16 @@ export default defineConfig({
 				'zh-cn': { label: '简体中文', lang: 'zh-CN' },
 			},
 			description:
-				"The verifiable frontier-AI gateway — call the world's most advanced models and verify which one served every request.",
+				'A cloud dev machine with Claude Code ready — start coding at boot, and it keeps working after you close your laptop.',
 			logo: { light: './src/assets/logo-light.svg', dark: './src/assets/logo-dark.svg', replacesTitle: true },
 			components: {
 				SiteTitle: './src/components/SiteTitle.astro',
 			},
 			customCss: ['./src/styles/custom.css'],
-			social: [{ icon: 'telegram', label: 'Telegram', href: 'https://t.me/apex1us' }],
+			social: [
+				{ icon: 'x.com', label: 'X', href: 'https://x.com/Apex1_api' },
+				{ icon: 'telegram', label: 'Telegram', href: 'https://t.me/apex1us' },
+			],
 			sidebar: [
 				{
 					label: 'Getting Started',
@@ -31,35 +52,35 @@ export default defineConfig({
 					items: [
 						{ label: 'Overview', translations: { 'zh-CN': '概览' }, link: '/' },
 						{ label: 'Quick Start', translations: { 'zh-CN': '快速开始' }, slug: 'getting-started/quick-start' },
-						{ label: 'Install Prerequisites', translations: { 'zh-CN': '安装前置' }, slug: 'getting-started/install' },
+						{ label: 'Connect over SSH', translations: { 'zh-CN': '用 SSH 连接' }, slug: 'getting-started/connect' },
 					],
 				},
 				{
-					label: 'Integrations',
-					translations: { 'zh-CN': '客户端接入' },
+					label: 'Claude Code',
 					items: [
-						{ label: 'Claude Code', slug: 'integrations/claude-code' },
-						{ label: 'Codex CLI', slug: 'integrations/codex-cli' },
+						{ label: 'Sign in to Claude', translations: { 'zh-CN': '登录 Claude' }, slug: 'claude/sign-in' },
+						{ label: 'Long-running Tasks', translations: { 'zh-CN': '跑长任务' }, slug: 'claude/long-tasks' },
+						{ label: 'Guardrails & ~/private', translations: { 'zh-CN': '护栏与 ~/private' }, slug: 'claude/guardrails' },
 					],
 				},
 				{
-					label: 'Earn by Sharing',
-					translations: { 'zh-CN': '共享赚钱' },
+					label: 'Your Machine',
+					translations: { 'zh-CN': '机器管理' },
 					items: [
-						{ label: 'Share Your Subscription', translations: { 'zh-CN': '共享你的订阅' }, slug: 'earn/share-subscription' },
-						{
-							label: 'Idle Quota Rewards',
-							translations: { 'zh-CN': '挂号奖励活动' },
-							slug: 'earn/idle-quota-rewards',
-							badge: { text: { en: 'Live', 'zh-CN': '进行中' }, variant: 'success' },
-						},
-						{ label: 'Earnings & Withdrawals', translations: { 'zh-CN': '收益与提现' }, slug: 'earn/earnings-and-withdrawals' },
+						{ label: 'Auto-suspend', translations: { 'zh-CN': '自动待机' }, slug: 'machines/auto-standby' },
+						{ label: 'Open Ports', translations: { 'zh-CN': '开放端口' }, slug: 'machines/ports' },
+						{ label: 'Web Terminal', translations: { 'zh-CN': '网页终端' }, slug: 'machines/web-terminal' },
+						{ label: 'Reimage', translations: { 'zh-CN': '重装系统' }, slug: 'machines/reimage' },
+						{ label: 'Commands', translations: { 'zh-CN': '机器里的命令' }, slug: 'machines/cli' },
 					],
 				},
 				{
-					label: 'Verification',
-					translations: { 'zh-CN': '可验证性' },
-					items: [{ label: 'Privacy Proof', translations: { 'zh-CN': '隐私证明' }, slug: 'verification/privacy-proof' }],
+					label: 'Billing & Privacy',
+					translations: { 'zh-CN': '计费与隐私' },
+					items: [
+						{ label: 'Pricing & Billing', translations: { 'zh-CN': '价格与计费' }, slug: 'billing/pricing' },
+						{ label: 'Security & Privacy', translations: { 'zh-CN': '安全与隐私' }, slug: 'security/privacy' },
+					],
 				},
 				{
 					label: 'Help',

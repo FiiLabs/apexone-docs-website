@@ -1,0 +1,14 @@
+---
+title: Web terminal
+description: "Get into your machine from the browser when SSH is broken."
+---
+import { Aside } from '@astrojs/starlight/components';
+
+The web terminal is **the way in when SSH doesn't work** (lost private key, new public key not added yet). Turn it on under *Web terminal* on the machine page, then click *Open terminal*.
+
+<Aside type="caution" title="The cost, stated plainly">
+	Web terminal sessions **technically pass through our servers** (not recorded, not stored). So it is **off by default**; you turn it on per machine and can turn it off any time.
+	Every toggle and every session is recorded in the activity log so you can check whether we ever used it. To keep everything off our servers, use your own terminal over SSH.
+</Aside>
+
+If the machine is suspended, opening the terminal wakes it (about 10 seconds).

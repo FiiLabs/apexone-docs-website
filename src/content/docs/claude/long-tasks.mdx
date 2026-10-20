@@ -1,0 +1,38 @@
+---
+title: Long-running tasks
+description: "Keep Claude working after you close your laptop: tmux, staying awake, scheduled jobs."
+---
+import { Aside } from '@astrojs/starlight/components';
+
+## Use tmux so nothing stops when you disconnect
+
+```bash
+tmux new -s work      # start a session
+claude                # run Claude Code inside it
+# Ctrl-b then d: detach, the task keeps running
+tmux attach -t work   # pick up where you left off
+```
+
+Dropping SSH or closing your laptop doesn't affect processes inside tmux.
+
+## Will auto-suspend interrupt it?
+
+New machines **do not auto-suspend by default** — they stay up, so long tasks aren't interrupted.
+
+If you turned auto-suspend on, a machine only suspends after 20 minutes (configurable) of **all** of these at once: no connections, a nearly idle CPU and almost no network traffic. Claude Code has connections and traffic while it talks to the model, so it isn't treated as idle.
+
+Suspending doesn't kill processes: memory is saved to the encrypted disk and loaded back exactly on the next connection.
+
+## Stay awake for a while
+
+With auto-suspend on, to make sure the machine doesn't sleep for a stretch:
+
+```bash
+hangar keep-awake 4h    # up to 24 hours, reverts automatically
+hangar keep-awake off   # cancel early
+```
+
+<Aside type="caution" title="Scheduled jobs">
+	While a machine is suspended, cron jobs, systemd timers and other scheduled jobs **do not run**, and they don't wake the machine.
+	Leave auto-suspend off on machines with scheduled jobs.
+</Aside>
