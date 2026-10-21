@@ -13,6 +13,7 @@ const legacy = {
 	'earn/idle-quota-rewards': '',
 	'earn/earnings-and-withdrawals': '',
 	'verification/privacy-proof': 'security/privacy/',
+	'claude/guardrails': 'claude/long-tasks/',   // 2026-10-21 去掉了 agent 隔离（~/private 等）
 };
 const redirects = {};
 for (const [from, to] of Object.entries(legacy)) {
@@ -60,7 +61,6 @@ export default defineConfig({
 					items: [
 						{ label: 'Sign in to Claude', translations: { 'zh-CN': '登录 Claude' }, slug: 'claude/sign-in' },
 						{ label: 'Long-running Tasks', translations: { 'zh-CN': '跑长任务' }, slug: 'claude/long-tasks' },
-						{ label: 'Guardrails & ~/private', translations: { 'zh-CN': '护栏与 ~/private' }, slug: 'claude/guardrails' },
 						{ label: 'Versions & Updates', translations: { 'zh-CN': '版本与升级' }, slug: 'claude/versions' },
 					],
 				},
