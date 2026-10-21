@@ -1,0 +1,39 @@
+---
+title: 版本与升级
+description: "预装的 Claude Code 由平台统一升级；你也可以自己装更新的版本。"
+---
+import { Aside } from '@astrojs/starlight/components';
+
+## 平台替你升级
+
+预装的 Claude Code 跟随**平台批准版本**：新版本先经过我们的兼容性检查，再推给所有机器。
+
+- 机器每 3 小时检查一次，和批准版本不同就自动升级。
+- **不重启、不打断正在跑的任务**：正在运行的 claude 继续用旧版本，下次启动才用新版本。
+- 每次升级都会记进控制台的「操作记录」，写明从哪个版本升到哪个版本。
+- 机器页的「Claude Code 版本」一行显示预装版本、你实际在用的版本、自动升级开没开。
+
+在机器里查看：
+
+```bash
+hangar claude-update
+```
+
+## 关掉自动升级
+
+```bash
+sudo hangar claude-update off   # 停在当前版本
+sudo hangar claude-update on    # 重新打开
+sudo hangar claude-update now   # 立刻检查一次
+```
+
+需要 `sudo`——Claude 在隔离里没有 sudo，它替你关不掉，也开不了。
+
+## 想用更新的版本
+
+按 Claude Code 官方文档的**原生安装**方式，把它装到你自己的家目录（`~/.local/bin`）。之后你敲 `claude` 会优先用你自己装的那份，它也会自己更新；平台的自动升级不会碰它。
+
+<Aside type="caution">
+	- 不要用 `sudo` 去改 `/opt/hangar` 里预装的那份：它会被自动升级改回平台批准版本。
+	- 平台为你代登录 Claude 账号时，用的始终是预装的那一份（经过检查的版本）；登好之后你用哪个版本都能用这个登录。
+</Aside>

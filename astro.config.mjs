@@ -61,6 +61,7 @@ export default defineConfig({
 						{ label: 'Sign in to Claude', translations: { 'zh-CN': '登录 Claude' }, slug: 'claude/sign-in' },
 						{ label: 'Long-running Tasks', translations: { 'zh-CN': '跑长任务' }, slug: 'claude/long-tasks' },
 						{ label: 'Guardrails & ~/private', translations: { 'zh-CN': '护栏与 ~/private' }, slug: 'claude/guardrails' },
+						{ label: 'Versions & Updates', translations: { 'zh-CN': '版本与升级' }, slug: 'claude/versions' },
 					],
 				},
 				{

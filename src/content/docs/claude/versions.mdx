@@ -1,0 +1,39 @@
+---
+title: Versions and updates
+description: "The pre-installed Claude Code is updated by the platform; you can also install a newer version yourself."
+---
+import { Aside } from '@astrojs/starlight/components';
+
+## We update it for you
+
+The pre-installed Claude Code follows the **platform-approved version**: each new version passes our compatibility check before it is rolled out to every machine.
+
+- Machines check every 3 hours and update automatically when they differ from the approved version.
+- **No restart, no interrupted work**: a running claude keeps the old version; the next start uses the new one.
+- Every update is recorded in the console's activity log, with the from and to versions.
+- The *Claude Code version* row on the machine page shows the pre-installed version, the version you actually run, and whether auto-update is on.
+
+On the machine:
+
+```bash
+hangar claude-update
+```
+
+## Turn auto-update off
+
+```bash
+sudo hangar claude-update off   # stay on the current version
+sudo hangar claude-update on    # turn it back on
+sudo hangar claude-update now   # check right away
+```
+
+This needs `sudo` — Claude has no sudo inside its isolation, so it can't turn this off or on for you.
+
+## Want a newer version?
+
+Install Claude Code into your own home directory (`~/.local/bin`) with the **native install** described in Claude Code's official docs. Running `claude` then uses your copy first, and it updates itself; the platform's auto-update never touches it.
+
+<Aside type="caution">
+	- Don't use `sudo` to change the pre-installed copy in `/opt/hangar`: auto-update will put it back to the approved version.
+	- When we sign a Claude account in for you, we always use the pre-installed copy (a checked version); once signed in, the login works with whichever version you run.
+</Aside>
